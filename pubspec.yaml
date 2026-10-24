@@ -1,0 +1,32 @@
+name: boveda
+description: "Bóveda: gestor de contraseñas personal con cifrado de extremo a extremo."
+publish_to: 'none'
+version: 3.0.0+3
+
+environment:
+  sdk: ^3.13.0
+
+workspace:
+  - packages/domain
+  - packages/designsystem
+  - packages/data
+  - packages/presentation
+
+dependencies:
+  flutter:
+    sdk: flutter
+  boveda_data:
+    path: packages/data
+  boveda_designsystem:
+    path: packages/designsystem
+  boveda_presentation:
+    path: packages/presentation
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,9 @@
+com.example.myapplication.presentation-pngs-0 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/generated/res/pngs/debug
+com.example.myapplication.presentation-updated_navigation_xml-1 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/generated/updated_navigation_xml/debug
+com.example.myapplication.presentation-mergeDebugResources-2 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.example.myapplication.presentation-mergeDebugResources-3 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.example.myapplication.presentation-debug-4 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/intermediates/merged_res/debug/mergeDebugResources
+com.example.myapplication.presentation-debug-5 /home/solary/AndroidStudioProjects/MyApplication/presentation/build/intermediates/packaged_res/debug/packageDebugResources
+com.example.myapplication.presentation-debug-6 /home/solary/AndroidStudioProjects/MyApplication/presentation/src/debug/res
+com.example.myapplication.presentation-main-7 /home/solary/AndroidStudioProjects/MyApplication/presentation/src/main/res
+gradleHome-0 /home/solary/.gradle

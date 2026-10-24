@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.myapplication.domain.usecase.ObserveAppStateUseCaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-16T17:26:19.377Z" hostname="archlinux" time="0.159">
+  <properties/>
+  <testcase name="walksThroughSetupUnlockLockAndSignOut" classname="com.example.myapplication.domain.usecase.ObserveAppStateUseCaseTest" time="0.147"/>
+  <testcase name="aKeyUnlockedForAnotherUserDoesNotUnlockThisOne" classname="com.example.myapplication.domain.usecase.ObserveAppStateUseCaseTest" time="0.006"/>
+  <testcase name="backendFailuresSurfaceAsFailedState" classname="com.example.myapplication.domain.usecase.ObserveAppStateUseCaseTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

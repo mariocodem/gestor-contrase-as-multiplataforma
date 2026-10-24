@@ -1,0 +1,4 @@
+<resources>
+    <string name="ds_show_password">Mostrar contraseña</string>
+    <string name="ds_hide_password">Ocultar contraseña</string>
+</resources>

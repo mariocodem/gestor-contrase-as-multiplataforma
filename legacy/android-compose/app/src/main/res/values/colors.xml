@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Window background before Compose draws, matching the steel theme to avoid a flash. -->
+    <color name="steel">#FFF1F3F5</color>
+    <color name="graphite">#FF20262C</color>
+    <color name="brass">#FFE9C46A</color>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-16T17:26:19.539Z" hostname="archlinux" time="0.04">
+  <properties/>
+  <testcase name="createVault_validatesLengthAndConfirmationBeforeTouchingTheVault" classname="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" time="0.003"/>
+  <testcase name="unlockVault_reportsAWrongMasterPassword" classname="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" time="0.003"/>
+  <testcase name="saveEntry_requiresANameAndTrimsEverythingButThePassword" classname="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" time="0.005"/>
+  <testcase name="observeEntries_sortsIgnoringCaseAndAccents" classname="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" time="0.025"/>
+  <testcase name="searchEntries_matchesTitleUsernameAndSiteWithoutAccents" classname="com.example.myapplication.domain.usecase.VaultAndEntryUseCasesTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

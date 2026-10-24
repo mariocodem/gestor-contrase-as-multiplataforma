@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <string name="app_title">Bóveda</string>
+    <string name="action_back">Volver</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_sign_out">Cerrar sesión</string>
+    <string name="action_lock">Bloquear</string>
+    <string name="action_more">Más opciones</string>
+    <string name="loading_vault">Conectando con tu bóveda…</string>
+
+    <!-- Navigation -->
+    <string name="nav_vault">Bóveda</string>
+    <string name="nav_generator">Generador</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <!-- Account -->
+    <string name="auth_subtitle_sign_in">Inicia sesión para sincronizar tu bóveda cifrada.</string>
+    <string name="auth_subtitle_register">Crea la cuenta con la que se sincronizarán tus contraseñas cifradas.</string>
+    <string name="auth_email">Correo</string>
+    <string name="auth_password">Contraseña de la cuenta</string>
+    <string name="auth_password_hint">No uses la misma que tu contraseña maestra.</string>
+    <string name="auth_sign_in">Iniciar sesión</string>
+    <string name="auth_register">Crear cuenta</string>
+    <string name="auth_switch_to_register">¿Primera vez? Crear cuenta</string>
+    <string name="auth_switch_to_sign_in">Ya tengo cuenta</string>
+    <string name="auth_forgot">Olvidé la contraseña de la cuenta</string>
+    <string name="auth_reset_sent">Si la cuenta existe, te enviamos un correo para restablecer la contraseña.</string>
+
+    <!-- Lock -->
+    <string name="lock_title_setup">Crea tu contraseña maestra</string>
+    <string name="lock_title_locked">Bóveda bloqueada</string>
+    <string name="lock_body_setup">Con ella se cifran tus contraseñas en este teléfono antes de subirlas. Nadie más puede leerlas, ni siquiera con acceso a la base de datos.</string>
+    <string name="lock_body_locked">Escribe tu contraseña maestra para continuar.</string>
+    <string name="lock_warning">No se puede recuperar. Si la olvidas, perderás el acceso a todas tus contraseñas.</string>
+    <string name="lock_master_password">Contraseña maestra</string>
+    <string name="lock_repeat_master_password">Repite la contraseña maestra</string>
+    <string name="lock_create">Crear bóveda</string>
+    <string name="lock_creating">Creando bóveda…</string>
+    <string name="lock_unlock">Desbloquear</string>
+    <string name="lock_unlocking">Descifrando…</string>
+    <string name="lock_use_biometrics">Usar huella</string>
+    <string name="lock_biometric_prompt">Desbloquear Bóveda</string>
+    <string name="lock_signed_in_as">Cuenta: %1$s</string>
+    <string name="error_screen_title">No se pudo abrir la bóveda</string>
+
+    <!-- Vault list -->
+    <string name="vault_search">Buscar</string>
+    <plurals name="vault_search_count">
+        <item quantity="one">Buscar en %d contraseña</item>
+        <item quantity="many">Buscar en %d contraseñas</item>
+        <item quantity="other">Buscar en %d contraseñas</item>
+    </plurals>
+    <string name="vault_clear_search">Borrar búsqueda</string>
+    <string name="vault_new">Nueva</string>
+    <string name="vault_new_description">Nueva contraseña</string>
+    <string name="vault_copy_password_of">Copiar contraseña de %1$s</string>
+    <string name="vault_empty_title">Tu bóveda está vacía</string>
+    <string name="vault_empty_body">Guarda tu primera contraseña con el botón Nueva. Se cifra en este teléfono antes de sincronizarse.</string>
+    <string name="vault_no_results_title">Sin resultados</string>
+    <string name="vault_no_results_body">Nada coincide con «%1$s». Se busca por nombre, usuario y sitio web.</string>
+    <string name="vault_error_title">No se pudieron cargar las contraseñas</string>
+
+    <!-- Clipboard -->
+    <string name="copied_password">Contraseña copiada. Se borrará del portapapeles en %1$d s.</string>
+    <string name="copied_password_short">Se borrará del portapapeles en %1$d s.</string>
+    <string name="copied_username">Usuario copiado</string>
+    <string name="clipboard_label_password">Contraseña</string>
+    <string name="clipboard_label_username">Usuario</string>
+
+    <!-- Entry detail -->
+    <string name="detail_username">Usuario</string>
+    <string name="detail_password">Contraseña</string>
+    <string name="detail_website">Sitio web</string>
+    <string name="detail_notes">Notas</string>
+    <string name="detail_copy_password">Copiar contraseña</string>
+    <string name="detail_copy_username">Copiar usuario</string>
+    <string name="detail_password_copied">Contraseña copiada</string>
+    <string name="detail_show_password">Mostrar contraseña</string>
+    <string name="detail_hide_password">Ocultar contraseña</string>
+    <string name="detail_hidden_password">Contraseña oculta</string>
+    <string name="detail_open_website">Abrir sitio web</string>
+    <string name="detail_edit">Editar</string>
+    <string name="detail_delete">Eliminar</string>
+    <string name="detail_updated">Modificada el %1$s</string>
+    <string name="detail_no_password">Sin contraseña guardada</string>
+    <string name="detail_missing_title">Esta contraseña ya no existe</string>
+    <string name="detail_missing_body">Se eliminó, quizá desde otro dispositivo.</string>
+    <string name="detail_delete_title">¿Eliminar «%1$s»?</string>
+    <string name="detail_delete_body">Se borrará de todos tus dispositivos. No se puede deshacer.</string>
+    <string name="detail_deleted">«%1$s» eliminada</string>
+
+    <!-- Entry editor -->
+    <string name="editor_new_title">Nueva contraseña</string>
+    <string name="editor_edit_title">Editar</string>
+    <string name="editor_close">Cerrar</string>
+    <string name="editor_save">Guardar</string>
+    <string name="editor_name">Nombre</string>
+    <string name="editor_name_placeholder">Banco, correo, Netflix…</string>
+    <string name="editor_username">Usuario o correo</string>
+    <string name="editor_password">Contraseña</string>
+    <string name="editor_generate">Generar</string>
+    <string name="editor_website">Sitio web</string>
+    <string name="editor_website_placeholder">ejemplo.com</string>
+    <string name="editor_notes">Notas</string>
+    <string name="editor_saved">Contraseña guardada</string>
+    <string name="editor_updated">Cambios guardados</string>
+    <string name="editor_discard_title">¿Descartar cambios?</string>
+    <string name="editor_discard_body">Los cambios que no hayas guardado se perderán.</string>
+    <string name="editor_discard">Descartar</string>
+    <string name="editor_keep_editing">Seguir editando</string>
+
+    <!-- Generator -->
+    <string name="generator_title">Generador</string>
+    <string name="generator_sheet_title">Generar contraseña</string>
+    <string name="generator_copy">Copiar</string>
+    <string name="generator_copied">Copiada</string>
+    <string name="generator_regenerate">Generar otra</string>
+    <string name="generator_use">Usar esta contraseña</string>
+    <string name="generator_length">Longitud</string>
+    <string name="generator_length_value">%1$d caracteres</string>
+    <string name="generator_characters">Caracteres</string>
+    <string name="generator_uppercase">Mayúsculas</string>
+    <string name="generator_uppercase_sample">A–Z</string>
+    <string name="generator_lowercase">Minúsculas</string>
+    <string name="generator_lowercase_sample">a–z</string>
+    <string name="generator_digits">Números</string>
+    <string name="generator_digits_sample">0–9</string>
+    <string name="generator_symbols">Símbolos</string>
+    <string name="generator_symbols_sample">! @ # $ % &amp; *</string>
+    <string name="generator_avoid_ambiguous">Evitar caracteres confusos</string>
+    <string name="generator_avoid_ambiguous_sample">Sin O 0 l 1 I ; : , .</string>
+    <string name="generator_last_set">Al menos un tipo de carácter debe quedar activo.</string>
+    <string name="generator_assumption">Estimación para estos ajustes, con un atacante que prueba 10 000 millones de contraseñas por segundo.</string>
+
+    <!-- Strength -->
+    <string name="strength_very_weak">Muy débil</string>
+    <string name="strength_weak">Débil</string>
+    <string name="strength_fair">Aceptable</string>
+    <string name="strength_strong">Fuerte</string>
+    <string name="strength_very_strong">Muy fuerte</string>
+    <string name="strength_bits">%1$d bits</string>
+    <string name="strength_instant">Se adivina al instante</string>
+    <string name="strength_crack_time">Adivinarla llevaría %1$s</string>
+    <plurals name="duration_seconds">
+        <item quantity="one">%d segundo</item>
+        <item quantity="many">%d segundos</item>
+        <item quantity="other">%d segundos</item>
+    </plurals>
+    <plurals name="duration_minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="many">%d minutos</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
+    <plurals name="duration_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="duration_days">
+        <item quantity="one">%d día</item>
+        <item quantity="many">%d días</item>
+        <item quantity="other">%d días</item>
+    </plurals>
+    <plurals name="duration_months">
+        <item quantity="one">%d mes</item>
+        <item quantity="many">%d meses</item>
+        <item quantity="other">%d meses</item>
+    </plurals>
+    <plurals name="duration_years">
+        <item quantity="one">%d año</item>
+        <item quantity="many">%d años</item>
+        <item quantity="other">%d años</item>
+    </plurals>
+    <string name="duration_centuries">siglos</string>
+    <string name="duration_millions_of_years">más de un millón de años</string>
+    <string name="warning_too_short">Usa al menos 12 caracteres.</string>
+    <string name="warning_common_password">Es una de las contraseñas más usadas.</string>
+    <string name="warning_common_word">Contiene una palabra muy común.</string>
+    <string name="warning_date">Los años y las fechas son fáciles de adivinar.</string>
+    <string name="warning_repeats">Evita repetir el mismo carácter.</string>
+    <string name="warning_sequence">Evita secuencias como abc o 123.</string>
+    <string name="warning_keyboard">Evita patrones del teclado como qwerty.</string>
+    <string name="warning_single_type">Mezcla letras, números y símbolos.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_account">Cuenta</string>
+    <string name="settings_signed_in">Sesión iniciada</string>
+    <string name="settings_security">Seguridad</string>
+    <string name="settings_biometric">Desbloqueo con huella</string>
+    <string name="settings_biometric_body">Usa la biometría del teléfono en lugar de la contraseña maestra.</string>
+    <string name="settings_biometric_unavailable">Configura una huella en los ajustes del teléfono para usarla aquí.</string>
+    <string name="settings_biometric_prompt">Activar desbloqueo con huella</string>
+    <string name="settings_biometric_on">Desbloqueo con huella activado</string>
+    <string name="settings_biometric_off">Desbloqueo con huella desactivado</string>
+    <string name="settings_auto_lock">Bloqueo automático</string>
+    <string name="settings_lock_now">Bloquear ahora</string>
+    <string name="settings_lock_now_body">Vuelve a pedir la contraseña maestra o la huella.</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_dynamic_color">Colores del fondo de pantalla</string>
+    <string name="settings_dynamic_color_body">Usa la paleta Material You en lugar del acero y latón.</string>
+    <string name="settings_about">Cómo se protegen tus datos</string>
+    <string name="settings_about_body">Cada contraseña se cifra en este teléfono con AES-256-GCM. La clave se deriva de tu contraseña maestra con PBKDF2 (600 000 iteraciones). Firestore solo guarda texto cifrado.</string>
+    <string name="auto_lock_immediately">Inmediatamente</string>
+    <string name="auto_lock_30_seconds">Tras 30 segundos</string>
+    <string name="auto_lock_1_minute">Tras 1 minuto</string>
+    <string name="auto_lock_5_minutes">Tras 5 minutos</string>
+    <string name="auto_lock_15_minutes">Tras 15 minutos</string>
+    <string name="auto_lock_dialog_body">Tiempo en segundo plano antes de volver a pedir el desbloqueo.</string>
+
+    <!-- Errors -->
+    <string name="error_network">Sin conexión a internet.</string>
+    <string name="error_too_many_requests">Demasiados intentos. Espera un momento y vuelve a probar.</string>
+    <string name="error_permission_denied">Firestore rechazó el acceso. Revisa las reglas de seguridad (firestore.rules).</string>
+    <string name="error_service_unavailable">El servidor no responde. Comprueba la conexión e inténtalo de nuevo.</string>
+    <string name="error_missing_credentials">Escribe tu correo y contraseña.</string>
+    <string name="error_missing_email">Escribe tu correo para enviarte el enlace.</string>
+    <string name="error_invalid_email">El correo no es válido.</string>
+    <string name="error_invalid_credentials">Correo o contraseña incorrectos.</string>
+    <string name="error_email_in_use">Ya existe una cuenta con ese correo.</string>
+    <string name="error_weak_account_password">La contraseña de la cuenta debe tener al menos 6 caracteres.</string>
+    <string name="error_empty_master_password">Escribe tu contraseña maestra.</string>
+    <string name="error_master_password_too_short">Usa al menos %1$d caracteres. Una frase larga es más fácil de recordar.</string>
+    <string name="error_master_password_mismatch">Las contraseñas no coinciden.</string>
+    <string name="error_wrong_master_password">Contraseña maestra incorrecta.</string>
+    <string name="error_vault_exists">Ya existe una bóveda para esta cuenta.</string>
+    <string name="error_vault_corrupted">Los datos de la bóveda en Firestore están incompletos.</string>
+    <string name="error_vault_locked">La bóveda está bloqueada. Desbloquéala para continuar.</string>
+    <string name="error_empty_title">Ponle un nombre.</string>
+    <string name="error_biometric_invalidated">Las huellas del teléfono cambiaron y el desbloqueo con huella se desactivó. Usa la contraseña maestra y vuelve a activarlo.</string>
+    <string name="error_biometric_failed">No se pudo desbloquear con la huella. Usa la contraseña maestra.</string>
+    <string name="error_unexpected">Algo salió mal: %1$s</string>
+    <string name="error_unexpected_generic">Algo salió mal. Inténtalo de nuevo.</string>
+</resources>

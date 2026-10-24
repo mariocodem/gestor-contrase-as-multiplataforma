@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml:2:13-83
+INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml:2:13-83
+	package
+		INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml
+	xmlns:android
+		ADDED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml:2:23-81
+uses-sdk
+INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml reason: use-sdk injection requested
+INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml
+INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml
+	android:targetSdkVersion
+		INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml
+	android:minSdkVersion
+		INJECTED from /home/solary/AndroidStudioProjects/MyApplication/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7369695498157288197.xml

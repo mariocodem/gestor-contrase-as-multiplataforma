@@ -1,0 +1,16 @@
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.auth.AuthViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.auth.AuthViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.generator.GeneratorViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.generator.GeneratorViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.lock.LockViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.lock.LockViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.root.RootViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.root.RootViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.settings.SettingsViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.settings.SettingsViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.detail.EntryDetailViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.detail.EntryDetailViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.editor.EntryEditorViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.editor.EntryEditorViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.list.VaultListViewModel
+-keep,allowobfuscation,allowshrinking class com.example.myapplication.presentation.vault.list.VaultListViewModel

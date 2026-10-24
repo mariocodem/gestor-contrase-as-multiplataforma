@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.myapplication.data.crypto.VaultCryptoTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-16T17:26:20.899Z" hostname="archlinux" time="0.102">
+  <properties/>
+  <testcase name="wrappedKey_rejectsAWrongPassword" classname="com.example.myapplication.data.crypto.VaultCryptoTest" time="0.078"/>
+  <testcase name="encrypt_roundTripsAndUsesAFreshIvEachTime" classname="com.example.myapplication.data.crypto.VaultCryptoTest" time="0.003"/>
+  <testcase name="wrappedKey_unwrapsWithTheSamePassword" classname="com.example.myapplication.data.crypto.VaultCryptoTest" time="0.006"/>
+  <testcase name="decrypt_rejectsTamperedCiphertext" classname="com.example.myapplication.data.crypto.VaultCryptoTest" time="0.006"/>
+  <testcase name="decrypt_rejectsCiphertextMovedToAnotherEntry" classname="com.example.myapplication.data.crypto.VaultCryptoTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

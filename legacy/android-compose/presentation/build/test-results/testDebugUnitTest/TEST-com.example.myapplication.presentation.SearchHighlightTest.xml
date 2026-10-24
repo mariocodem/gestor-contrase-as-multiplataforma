@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.myapplication.presentation.SearchHighlightTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-16T17:58:50.124Z" hostname="archlinux" time="0.042">
+  <properties/>
+  <testcase name="marksEveryOccurrenceAndNothingForABlankQuery" classname="com.example.myapplication.presentation.SearchHighlightTest" time="0.041"/>
+  <testcase name="marksWhyARowMatched" classname="com.example.myapplication.presentation.SearchHighlightTest" time="0.001"/>
+  <testcase name="ignoresCaseAndAccentsLikeTheSearch" classname="com.example.myapplication.presentation.SearchHighlightTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

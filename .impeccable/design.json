@@ -1,0 +1,1329 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T19:17:19+00:00",
+  "title": "Design System: Bóveda",
+  "extensions": {
+    "platform": "android (Jetpack Compose + Material 3); dp/sp values, CSS snippets are approximations for the panel",
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Action Brass",
+        "canonical": "#876214",
+        "tonalRamp": [
+          "oklch(15% 0.100 80.5)",
+          "oklch(25% 0.100 80.5)",
+          "oklch(36% 0.100 80.5)",
+          "oklch(47% 0.100 80.5)",
+          "oklch(58% 0.100 80.5)",
+          "oklch(70% 0.100 80.5)",
+          "oklch(82% 0.100 80.5)",
+          "oklch(95% 0.100 80.5)"
+        ]
+      },
+      "onPrimary": {
+        "role": "primary",
+        "displayName": "On Primary",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(25% 0.000 89.9)",
+          "oklch(36% 0.000 89.9)",
+          "oklch(47% 0.000 89.9)",
+          "oklch(58% 0.000 89.9)",
+          "oklch(70% 0.000 89.9)",
+          "oklch(82% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "primaryContainer": {
+        "role": "primary",
+        "displayName": "Polished Brass",
+        "canonical": "#E9C46A",
+        "tonalRamp": [
+          "oklch(15% 0.117 87.4)",
+          "oklch(25% 0.117 87.4)",
+          "oklch(36% 0.117 87.4)",
+          "oklch(47% 0.117 87.4)",
+          "oklch(58% 0.117 87.4)",
+          "oklch(70% 0.117 87.4)",
+          "oklch(82% 0.117 87.4)",
+          "oklch(95% 0.117 87.4)"
+        ]
+      },
+      "onPrimaryContainer": {
+        "role": "primary",
+        "displayName": "On Primary Container",
+        "canonical": "#251A00",
+        "tonalRamp": [
+          "oklch(15% 0.046 87.0)",
+          "oklch(25% 0.046 87.0)",
+          "oklch(36% 0.046 87.0)",
+          "oklch(47% 0.046 87.0)",
+          "oklch(58% 0.046 87.0)",
+          "oklch(70% 0.046 87.0)",
+          "oklch(82% 0.046 87.0)",
+          "oklch(95% 0.046 87.0)"
+        ]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Blued Slate",
+        "canonical": "#4E5D69",
+        "tonalRamp": [
+          "oklch(15% 0.027 242.4)",
+          "oklch(25% 0.027 242.4)",
+          "oklch(36% 0.027 242.4)",
+          "oklch(47% 0.027 242.4)",
+          "oklch(58% 0.027 242.4)",
+          "oklch(70% 0.027 242.4)",
+          "oklch(82% 0.027 242.4)",
+          "oklch(95% 0.027 242.4)"
+        ]
+      },
+      "secondaryContainer": {
+        "role": "secondary",
+        "displayName": "Secondary Container",
+        "canonical": "#D2DEE8",
+        "tonalRamp": [
+          "oklch(15% 0.019 243.0)",
+          "oklch(25% 0.019 243.0)",
+          "oklch(36% 0.019 243.0)",
+          "oklch(47% 0.019 243.0)",
+          "oklch(58% 0.019 243.0)",
+          "oklch(70% 0.019 243.0)",
+          "oklch(82% 0.019 243.0)",
+          "oklch(95% 0.019 243.0)"
+        ]
+      },
+      "tertiary": {
+        "role": "tertiary",
+        "displayName": "Cobalt",
+        "canonical": "#2F5BD3",
+        "tonalRamp": [
+          "oklch(15% 0.192 265.0)",
+          "oklch(25% 0.192 265.0)",
+          "oklch(36% 0.192 265.0)",
+          "oklch(47% 0.192 265.0)",
+          "oklch(58% 0.192 265.0)",
+          "oklch(70% 0.192 265.0)",
+          "oklch(82% 0.192 265.0)",
+          "oklch(95% 0.192 265.0)"
+        ]
+      },
+      "error": {
+        "role": "state",
+        "displayName": "Error Red",
+        "canonical": "#B3261E",
+        "tonalRamp": [
+          "oklch(15% 0.178 28.7)",
+          "oklch(25% 0.178 28.7)",
+          "oklch(36% 0.178 28.7)",
+          "oklch(47% 0.178 28.7)",
+          "oklch(58% 0.178 28.7)",
+          "oklch(70% 0.178 28.7)",
+          "oklch(82% 0.178 28.7)",
+          "oklch(95% 0.178 28.7)"
+        ]
+      },
+      "errorContainer": {
+        "role": "state",
+        "displayName": "Error Container",
+        "canonical": "#F9DEDC",
+        "tonalRamp": [
+          "oklch(15% 0.030 22.8)",
+          "oklch(25% 0.030 22.8)",
+          "oklch(36% 0.030 22.8)",
+          "oklch(47% 0.030 22.8)",
+          "oklch(58% 0.030 22.8)",
+          "oklch(70% 0.030 22.8)",
+          "oklch(82% 0.030 22.8)",
+          "oklch(95% 0.030 22.8)"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Brushed Steel",
+        "canonical": "#F1F3F5",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Brushed Steel",
+        "canonical": "#F1F3F5",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "onSurface": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#191C1F",
+        "tonalRamp": [
+          "oklch(15% 0.007 248.2)",
+          "oklch(25% 0.007 248.2)",
+          "oklch(36% 0.007 248.2)",
+          "oklch(47% 0.007 248.2)",
+          "oklch(58% 0.007 248.2)",
+          "oklch(70% 0.007 248.2)",
+          "oklch(82% 0.007 248.2)",
+          "oklch(95% 0.007 248.2)"
+        ]
+      },
+      "surfaceVariant": {
+        "role": "neutral",
+        "displayName": "Surface Variant",
+        "canonical": "#DCE1E6",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "onSurfaceVariant": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#434A51",
+        "tonalRamp": [
+          "oklch(15% 0.015 248.2)",
+          "oklch(25% 0.015 248.2)",
+          "oklch(36% 0.015 248.2)",
+          "oklch(47% 0.015 248.2)",
+          "oklch(58% 0.015 248.2)",
+          "oklch(70% 0.015 248.2)",
+          "oklch(82% 0.015 248.2)",
+          "oklch(95% 0.015 248.2)"
+        ]
+      },
+      "outline": {
+        "role": "neutral",
+        "displayName": "Outline",
+        "canonical": "#737A82",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "outlineVariant": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#C2C8CE",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainerLowest": {
+        "role": "neutral",
+        "displayName": "Surface Container Lowest",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainerLow": {
+        "role": "neutral",
+        "displayName": "Surface Container Low",
+        "canonical": "#EBEEF1",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainer": {
+        "role": "neutral",
+        "displayName": "Surface Container",
+        "canonical": "#E5E9EC",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainerHigh": {
+        "role": "neutral",
+        "displayName": "Surface Container High",
+        "canonical": "#DFE3E7",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainerHighest": {
+        "role": "neutral",
+        "displayName": "Surface Container Highest",
+        "canonical": "#D8DDE2",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Steel Plate",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "shell": {
+        "role": "neutral",
+        "displayName": "Graphite Shell",
+        "canonical": "#20262C",
+        "tonalRamp": [
+          "oklch(15% 0.014 248.4)",
+          "oklch(25% 0.014 248.4)",
+          "oklch(36% 0.014 248.4)",
+          "oklch(47% 0.014 248.4)",
+          "oklch(58% 0.014 248.4)",
+          "oklch(70% 0.014 248.4)",
+          "oklch(82% 0.014 248.4)",
+          "oklch(95% 0.014 248.4)"
+        ]
+      },
+      "onShell": {
+        "role": "neutral",
+        "displayName": "On Shell",
+        "canonical": "#F1F3F5",
+        "tonalRamp": [
+          "oklch(15% 0.003 247.9)",
+          "oklch(25% 0.003 247.9)",
+          "oklch(36% 0.003 247.9)",
+          "oklch(47% 0.003 247.9)",
+          "oklch(58% 0.003 247.9)",
+          "oklch(70% 0.003 247.9)",
+          "oklch(82% 0.003 247.9)",
+          "oklch(95% 0.003 247.9)"
+        ]
+      },
+      "onShellVariant": {
+        "role": "neutral",
+        "displayName": "On Shell Variant",
+        "canonical": "#AAB3BB",
+        "tonalRamp": [
+          "oklch(15% 0.015 244.8)",
+          "oklch(25% 0.015 244.8)",
+          "oklch(36% 0.015 244.8)",
+          "oklch(47% 0.015 244.8)",
+          "oklch(58% 0.015 244.8)",
+          "oklch(70% 0.015 244.8)",
+          "oklch(82% 0.015 244.8)",
+          "oklch(95% 0.015 244.8)"
+        ]
+      },
+      "shellField": {
+        "role": "neutral",
+        "displayName": "Shell Field",
+        "canonical": "#2E353C",
+        "tonalRamp": [
+          "oklch(15% 0.016 248.3)",
+          "oklch(25% 0.016 248.3)",
+          "oklch(36% 0.016 248.3)",
+          "oklch(47% 0.016 248.3)",
+          "oklch(58% 0.016 248.3)",
+          "oklch(70% 0.016 248.3)",
+          "oklch(82% 0.016 248.3)",
+          "oklch(95% 0.016 248.3)"
+        ]
+      },
+      "shellIndicator": {
+        "role": "neutral",
+        "displayName": "Shell Indicator Brass",
+        "canonical": "#E9C46A",
+        "tonalRamp": [
+          "oklch(15% 0.117 87.4)",
+          "oklch(25% 0.117 87.4)",
+          "oklch(36% 0.117 87.4)",
+          "oklch(47% 0.117 87.4)",
+          "oklch(58% 0.117 87.4)",
+          "oklch(70% 0.117 87.4)",
+          "oklch(82% 0.117 87.4)",
+          "oklch(95% 0.117 87.4)"
+        ]
+      },
+      "onShellIndicator": {
+        "role": "neutral",
+        "displayName": "On Shell Indicator",
+        "canonical": "#251A00",
+        "tonalRamp": [
+          "oklch(15% 0.046 87.0)",
+          "oklch(25% 0.046 87.0)",
+          "oklch(36% 0.046 87.0)",
+          "oklch(47% 0.046 87.0)",
+          "oklch(58% 0.046 87.0)",
+          "oklch(70% 0.046 87.0)",
+          "oklch(82% 0.046 87.0)",
+          "oklch(95% 0.046 87.0)"
+        ]
+      },
+      "secretDigit": {
+        "role": "secret-ink",
+        "displayName": "Blued Steel",
+        "canonical": "#3B5C80",
+        "tonalRamp": [
+          "oklch(15% 0.071 251.5)",
+          "oklch(25% 0.071 251.5)",
+          "oklch(36% 0.071 251.5)",
+          "oklch(47% 0.071 251.5)",
+          "oklch(58% 0.071 251.5)",
+          "oklch(70% 0.071 251.5)",
+          "oklch(82% 0.071 251.5)",
+          "oklch(95% 0.071 251.5)"
+        ]
+      },
+      "secretSymbol": {
+        "role": "secret-ink",
+        "displayName": "Light Graphite",
+        "canonical": "#5C646C",
+        "tonalRamp": [
+          "oklch(15% 0.016 248.2)",
+          "oklch(25% 0.016 248.2)",
+          "oklch(36% 0.016 248.2)",
+          "oklch(47% 0.016 248.2)",
+          "oklch(58% 0.016 248.2)",
+          "oklch(70% 0.016 248.2)",
+          "oklch(82% 0.016 248.2)",
+          "oklch(95% 0.016 248.2)"
+        ]
+      },
+      "strengthVeryWeak": {
+        "role": "state",
+        "displayName": "Strength Very Weak",
+        "canonical": "#B3261E",
+        "tonalRamp": [
+          "oklch(15% 0.178 28.7)",
+          "oklch(25% 0.178 28.7)",
+          "oklch(36% 0.178 28.7)",
+          "oklch(47% 0.178 28.7)",
+          "oklch(58% 0.178 28.7)",
+          "oklch(70% 0.178 28.7)",
+          "oklch(82% 0.178 28.7)",
+          "oklch(95% 0.178 28.7)"
+        ]
+      },
+      "strengthWeak": {
+        "role": "state",
+        "displayName": "Strength Weak",
+        "canonical": "#C2541B",
+        "tonalRamp": [
+          "oklch(15% 0.156 43.7)",
+          "oklch(25% 0.156 43.7)",
+          "oklch(36% 0.156 43.7)",
+          "oklch(47% 0.156 43.7)",
+          "oklch(58% 0.156 43.7)",
+          "oklch(70% 0.156 43.7)",
+          "oklch(82% 0.156 43.7)",
+          "oklch(95% 0.156 43.7)"
+        ]
+      },
+      "strengthFair": {
+        "role": "state",
+        "displayName": "Strength Fair",
+        "canonical": "#9A6B00",
+        "tonalRamp": [
+          "oklch(15% 0.117 78.3)",
+          "oklch(25% 0.117 78.3)",
+          "oklch(36% 0.117 78.3)",
+          "oklch(47% 0.117 78.3)",
+          "oklch(58% 0.117 78.3)",
+          "oklch(70% 0.117 78.3)",
+          "oklch(82% 0.117 78.3)",
+          "oklch(95% 0.117 78.3)"
+        ]
+      },
+      "strengthStrong": {
+        "role": "state",
+        "displayName": "Strength Strong",
+        "canonical": "#2E7D4F",
+        "tonalRamp": [
+          "oklch(15% 0.106 154.6)",
+          "oklch(25% 0.106 154.6)",
+          "oklch(36% 0.106 154.6)",
+          "oklch(47% 0.106 154.6)",
+          "oklch(58% 0.106 154.6)",
+          "oklch(70% 0.106 154.6)",
+          "oklch(82% 0.106 154.6)",
+          "oklch(95% 0.106 154.6)"
+        ]
+      },
+      "strengthVeryStrong": {
+        "role": "state",
+        "displayName": "Strength Very Strong",
+        "canonical": "#14694F",
+        "tonalRamp": [
+          "oklch(15% 0.088 167.0)",
+          "oklch(25% 0.088 167.0)",
+          "oklch(36% 0.088 167.0)",
+          "oklch(47% 0.088 167.0)",
+          "oklch(58% 0.088 167.0)",
+          "oklch(70% 0.088 167.0)",
+          "oklch(82% 0.088 167.0)",
+          "oklch(95% 0.088 167.0)"
+        ]
+      },
+      "keyCapCobalt": {
+        "role": "identity",
+        "displayName": "Cobalt Cap",
+        "canonical": "#2F5BD3",
+        "tonalRamp": [
+          "oklch(15% 0.192 265.0)",
+          "oklch(25% 0.192 265.0)",
+          "oklch(36% 0.192 265.0)",
+          "oklch(47% 0.192 265.0)",
+          "oklch(58% 0.192 265.0)",
+          "oklch(70% 0.192 265.0)",
+          "oklch(82% 0.192 265.0)",
+          "oklch(95% 0.192 265.0)"
+        ]
+      },
+      "keyCapGreen": {
+        "role": "identity",
+        "displayName": "Green Cap",
+        "canonical": "#1F7F54",
+        "tonalRamp": [
+          "oklch(15% 0.111 158.9)",
+          "oklch(25% 0.111 158.9)",
+          "oklch(36% 0.111 158.9)",
+          "oklch(47% 0.111 158.9)",
+          "oklch(58% 0.111 158.9)",
+          "oklch(70% 0.111 158.9)",
+          "oklch(82% 0.111 158.9)",
+          "oklch(95% 0.111 158.9)"
+        ]
+      },
+      "keyCapViolet": {
+        "role": "identity",
+        "displayName": "Violet Cap",
+        "canonical": "#7046C2",
+        "tonalRamp": [
+          "oklch(15% 0.184 294.5)",
+          "oklch(25% 0.184 294.5)",
+          "oklch(36% 0.184 294.5)",
+          "oklch(47% 0.184 294.5)",
+          "oklch(58% 0.184 294.5)",
+          "oklch(70% 0.184 294.5)",
+          "oklch(82% 0.184 294.5)",
+          "oklch(95% 0.184 294.5)"
+        ]
+      },
+      "keyCapCopper": {
+        "role": "identity",
+        "displayName": "Copper Cap",
+        "canonical": "#B4532A",
+        "tonalRamp": [
+          "oklch(15% 0.137 41.9)",
+          "oklch(25% 0.137 41.9)",
+          "oklch(36% 0.137 41.9)",
+          "oklch(47% 0.137 41.9)",
+          "oklch(58% 0.137 41.9)",
+          "oklch(70% 0.137 41.9)",
+          "oklch(82% 0.137 41.9)",
+          "oklch(95% 0.137 41.9)"
+        ]
+      },
+      "keyCapBrass": {
+        "role": "identity",
+        "displayName": "Brass Cap",
+        "canonical": "#C99A2E",
+        "tonalRamp": [
+          "oklch(15% 0.131 83.7)",
+          "oklch(25% 0.131 83.7)",
+          "oklch(36% 0.131 83.7)",
+          "oklch(47% 0.131 83.7)",
+          "oklch(58% 0.131 83.7)",
+          "oklch(70% 0.131 83.7)",
+          "oklch(82% 0.131 83.7)",
+          "oklch(95% 0.131 83.7)"
+        ]
+      },
+      "keyCapTeal": {
+        "role": "identity",
+        "displayName": "Teal Cap",
+        "canonical": "#0F7C86",
+        "tonalRamp": [
+          "oklch(15% 0.089 205.1)",
+          "oklch(25% 0.089 205.1)",
+          "oklch(36% 0.089 205.1)",
+          "oklch(47% 0.089 205.1)",
+          "oklch(58% 0.089 205.1)",
+          "oklch(70% 0.089 205.1)",
+          "oklch(82% 0.089 205.1)",
+          "oklch(95% 0.089 205.1)"
+        ]
+      },
+      "keyCapMagenta": {
+        "role": "identity",
+        "displayName": "Magenta Cap",
+        "canonical": "#AE3678",
+        "tonalRamp": [
+          "oklch(15% 0.168 350.5)",
+          "oklch(25% 0.168 350.5)",
+          "oklch(36% 0.168 350.5)",
+          "oklch(47% 0.168 350.5)",
+          "oklch(58% 0.168 350.5)",
+          "oklch(70% 0.168 350.5)",
+          "oklch(82% 0.168 350.5)",
+          "oklch(95% 0.168 350.5)"
+        ]
+      },
+      "keyCapSlate": {
+        "role": "identity",
+        "displayName": "Slate Cap",
+        "canonical": "#4B5967",
+        "tonalRamp": [
+          "oklch(15% 0.029 248.5)",
+          "oklch(25% 0.029 248.5)",
+          "oklch(36% 0.029 248.5)",
+          "oklch(47% 0.029 248.5)",
+          "oklch(58% 0.029 248.5)",
+          "oklch(70% 0.029 248.5)",
+          "oklch(82% 0.029 248.5)",
+          "oklch(95% 0.029 248.5)"
+        ]
+      },
+      "keyCapStamp": {
+        "role": "identity",
+        "displayName": "Key Cap Stamp",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(25% 0.000 89.9)",
+          "oklch(36% 0.000 89.9)",
+          "oklch(47% 0.000 89.9)",
+          "oklch(58% 0.000 89.9)",
+          "oklch(70% 0.000 89.9)",
+          "oklch(82% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "keyCapStampOnBrass": {
+        "role": "identity",
+        "displayName": "Key Cap Stamp On Brass",
+        "canonical": "#221800",
+        "tonalRamp": [
+          "oklch(15% 0.044 88.0)",
+          "oklch(25% 0.044 88.0)",
+          "oklch(36% 0.044 88.0)",
+          "oklch(47% 0.044 88.0)",
+          "oklch(58% 0.044 88.0)",
+          "oklch(70% 0.044 88.0)",
+          "oklch(82% 0.044 88.0)",
+          "oklch(95% 0.044 88.0)"
+        ]
+      },
+      "primary-dark": {
+        "role": "primary",
+        "displayName": "Action Brass (dark)",
+        "canonical": "#E9C46A",
+        "tonalRamp": [
+          "oklch(15% 0.117 87.4)",
+          "oklch(25% 0.117 87.4)",
+          "oklch(36% 0.117 87.4)",
+          "oklch(47% 0.117 87.4)",
+          "oklch(58% 0.117 87.4)",
+          "oklch(70% 0.117 87.4)",
+          "oklch(82% 0.117 87.4)",
+          "oklch(95% 0.117 87.4)"
+        ]
+      },
+      "onPrimary-dark": {
+        "role": "primary",
+        "displayName": "On Primary (dark)",
+        "canonical": "#3D2E00",
+        "tonalRamp": [
+          "oklch(15% 0.063 89.1)",
+          "oklch(25% 0.063 89.1)",
+          "oklch(36% 0.063 89.1)",
+          "oklch(47% 0.063 89.1)",
+          "oklch(58% 0.063 89.1)",
+          "oklch(70% 0.063 89.1)",
+          "oklch(82% 0.063 89.1)",
+          "oklch(95% 0.063 89.1)"
+        ]
+      },
+      "primaryContainer-dark": {
+        "role": "primary",
+        "displayName": "Polished Brass (dark)",
+        "canonical": "#CFA444",
+        "tonalRamp": [
+          "oklch(15% 0.123 84.5)",
+          "oklch(25% 0.123 84.5)",
+          "oklch(36% 0.123 84.5)",
+          "oklch(47% 0.123 84.5)",
+          "oklch(58% 0.123 84.5)",
+          "oklch(70% 0.123 84.5)",
+          "oklch(82% 0.123 84.5)",
+          "oklch(95% 0.123 84.5)"
+        ]
+      },
+      "onPrimaryContainer-dark": {
+        "role": "primary",
+        "displayName": "On Primary Container (dark)",
+        "canonical": "#221800",
+        "tonalRamp": [
+          "oklch(15% 0.044 88.0)",
+          "oklch(25% 0.044 88.0)",
+          "oklch(36% 0.044 88.0)",
+          "oklch(47% 0.044 88.0)",
+          "oklch(58% 0.044 88.0)",
+          "oklch(70% 0.044 88.0)",
+          "oklch(82% 0.044 88.0)",
+          "oklch(95% 0.044 88.0)"
+        ]
+      },
+      "background-dark": {
+        "role": "neutral",
+        "displayName": "Brushed Steel (dark)",
+        "canonical": "#101316",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "onSurface-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark)",
+        "canonical": "#E1E5E9",
+        "tonalRamp": [
+          "oklch(15% 0.007 247.9)",
+          "oklch(25% 0.007 247.9)",
+          "oklch(36% 0.007 247.9)",
+          "oklch(47% 0.007 247.9)",
+          "oklch(58% 0.007 247.9)",
+          "oklch(70% 0.007 247.9)",
+          "oklch(82% 0.007 247.9)",
+          "oklch(95% 0.007 247.9)"
+        ]
+      },
+      "onSurfaceVariant-dark": {
+        "role": "neutral",
+        "displayName": "Muted Ink (dark)",
+        "canonical": "#BEC6CD",
+        "tonalRamp": [
+          "oklch(15% 0.013 244.3)",
+          "oklch(25% 0.013 244.3)",
+          "oklch(36% 0.013 244.3)",
+          "oklch(47% 0.013 244.3)",
+          "oklch(58% 0.013 244.3)",
+          "oklch(70% 0.013 244.3)",
+          "oklch(82% 0.013 244.3)",
+          "oklch(95% 0.013 244.3)"
+        ]
+      },
+      "outlineVariant-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "#3F474E",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "surfaceContainerHighest-dark": {
+        "role": "neutral",
+        "displayName": "Surface Container Highest (dark)",
+        "canonical": "#303539",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "plate-dark": {
+        "role": "neutral",
+        "displayName": "Steel Plate (dark)",
+        "canonical": "#1B1F23",
+        "tonalRamp": [
+          "#0B0E10",
+          "#171B1E",
+          "#303539",
+          "#737A82",
+          "#C2C8CE",
+          "#D8DDE2",
+          "#EBEEF1",
+          "#FFFFFF"
+        ]
+      },
+      "shell-dark": {
+        "role": "neutral",
+        "displayName": "Graphite Shell (dark)",
+        "canonical": "#1B2025",
+        "tonalRamp": [
+          "oklch(15% 0.012 248.3)",
+          "oklch(25% 0.012 248.3)",
+          "oklch(36% 0.012 248.3)",
+          "oklch(47% 0.012 248.3)",
+          "oklch(58% 0.012 248.3)",
+          "oklch(70% 0.012 248.3)",
+          "oklch(82% 0.012 248.3)",
+          "oklch(95% 0.012 248.3)"
+        ]
+      },
+      "onShell-dark": {
+        "role": "neutral",
+        "displayName": "On Shell (dark)",
+        "canonical": "#E1E5E9",
+        "tonalRamp": [
+          "oklch(15% 0.007 247.9)",
+          "oklch(25% 0.007 247.9)",
+          "oklch(36% 0.007 247.9)",
+          "oklch(47% 0.007 247.9)",
+          "oklch(58% 0.007 247.9)",
+          "oklch(70% 0.007 247.9)",
+          "oklch(82% 0.007 247.9)",
+          "oklch(95% 0.007 247.9)"
+        ]
+      },
+      "onShellVariant-dark": {
+        "role": "neutral",
+        "displayName": "On Shell Variant (dark)",
+        "canonical": "#9AA3AB",
+        "tonalRamp": [
+          "oklch(15% 0.016 244.8)",
+          "oklch(25% 0.016 244.8)",
+          "oklch(36% 0.016 244.8)",
+          "oklch(47% 0.016 244.8)",
+          "oklch(58% 0.016 244.8)",
+          "oklch(70% 0.016 244.8)",
+          "oklch(82% 0.016 244.8)",
+          "oklch(95% 0.016 244.8)"
+        ]
+      },
+      "shellField-dark": {
+        "role": "neutral",
+        "displayName": "Shell Field (dark)",
+        "canonical": "#283037",
+        "tonalRamp": [
+          "oklch(15% 0.017 244.8)",
+          "oklch(25% 0.017 244.8)",
+          "oklch(36% 0.017 244.8)",
+          "oklch(47% 0.017 244.8)",
+          "oklch(58% 0.017 244.8)",
+          "oklch(70% 0.017 244.8)",
+          "oklch(82% 0.017 244.8)",
+          "oklch(95% 0.017 244.8)"
+        ]
+      },
+      "secretDigit-dark": {
+        "role": "secret-ink",
+        "displayName": "Blued Steel (dark)",
+        "canonical": "#9EBBDB",
+        "tonalRamp": [
+          "oklch(15% 0.056 251.1)",
+          "oklch(25% 0.056 251.1)",
+          "oklch(36% 0.056 251.1)",
+          "oklch(47% 0.056 251.1)",
+          "oklch(58% 0.056 251.1)",
+          "oklch(70% 0.056 251.1)",
+          "oklch(82% 0.056 251.1)",
+          "oklch(95% 0.056 251.1)"
+        ]
+      },
+      "secretSymbol-dark": {
+        "role": "secret-ink",
+        "displayName": "Light Graphite (dark)",
+        "canonical": "#9AA3AB",
+        "tonalRamp": [
+          "oklch(15% 0.016 244.8)",
+          "oklch(25% 0.016 244.8)",
+          "oklch(36% 0.016 244.8)",
+          "oklch(47% 0.016 244.8)",
+          "oklch(58% 0.016 244.8)",
+          "oklch(70% 0.016 244.8)",
+          "oklch(82% 0.016 244.8)",
+          "oklch(95% 0.016 244.8)"
+        ]
+      },
+      "strengthVeryWeak-dark": {
+        "role": "state",
+        "displayName": "Strength Very Weak (dark)",
+        "canonical": "#F2B8B5",
+        "tonalRamp": [
+          "oklch(15% 0.068 22.0)",
+          "oklch(25% 0.068 22.0)",
+          "oklch(36% 0.068 22.0)",
+          "oklch(47% 0.068 22.0)",
+          "oklch(58% 0.068 22.0)",
+          "oklch(70% 0.068 22.0)",
+          "oklch(82% 0.068 22.0)",
+          "oklch(95% 0.068 22.0)"
+        ]
+      },
+      "strengthWeak-dark": {
+        "role": "state",
+        "displayName": "Strength Weak (dark)",
+        "canonical": "#FFB68E",
+        "tonalRamp": [
+          "oklch(15% 0.101 49.6)",
+          "oklch(25% 0.101 49.6)",
+          "oklch(36% 0.101 49.6)",
+          "oklch(47% 0.101 49.6)",
+          "oklch(58% 0.101 49.6)",
+          "oklch(70% 0.101 49.6)",
+          "oklch(82% 0.101 49.6)",
+          "oklch(95% 0.101 49.6)"
+        ]
+      },
+      "strengthFair-dark": {
+        "role": "state",
+        "displayName": "Strength Fair (dark)",
+        "canonical": "#F0C04C",
+        "tonalRamp": [
+          "oklch(15% 0.141 86.0)",
+          "oklch(25% 0.141 86.0)",
+          "oklch(36% 0.141 86.0)",
+          "oklch(47% 0.141 86.0)",
+          "oklch(58% 0.141 86.0)",
+          "oklch(70% 0.141 86.0)",
+          "oklch(82% 0.141 86.0)",
+          "oklch(95% 0.141 86.0)"
+        ]
+      },
+      "strengthStrong-dark": {
+        "role": "state",
+        "displayName": "Strength Strong (dark)",
+        "canonical": "#7FD8A0",
+        "tonalRamp": [
+          "oklch(15% 0.118 155.1)",
+          "oklch(25% 0.118 155.1)",
+          "oklch(36% 0.118 155.1)",
+          "oklch(47% 0.118 155.1)",
+          "oklch(58% 0.118 155.1)",
+          "oklch(70% 0.118 155.1)",
+          "oklch(82% 0.118 155.1)",
+          "oklch(95% 0.118 155.1)"
+        ]
+      },
+      "strengthVeryStrong-dark": {
+        "role": "state",
+        "displayName": "Strength Very Strong (dark)",
+        "canonical": "#5FD6B0",
+        "tonalRamp": [
+          "oklch(15% 0.121 169.4)",
+          "oklch(25% 0.121 169.4)",
+          "oklch(36% 0.121 169.4)",
+          "oklch(47% 0.121 169.4)",
+          "oklch(58% 0.121 169.4)",
+          "oklch(70% 0.121 169.4)",
+          "oklch(82% 0.121 169.4)",
+          "oklch(95% 0.121 169.4)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Defined (34–48sp SemiBold) but unused by current screens."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Entry title in the detail header."
+      },
+      "title-large": {
+        "displayName": "Title Large",
+        "purpose": "Top-bar titles and the generator sheet title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Detail copy-button label, empty-state titles."
+      },
+      "title-small": {
+        "displayName": "Title Small",
+        "purpose": "Generator option group heads."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Row titles, field values, notes."
+      },
+      "body-medium": {
+        "displayName": "Body Medium",
+        "purpose": "Secondary lines, form messages, empty-state body."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Strength detail line, timestamps."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, section labels, strength verdict."
+      },
+      "label-medium": {
+        "displayName": "Label Medium",
+        "purpose": "Field labels inside plates; navigation labels."
+      },
+      "secret-large": {
+        "displayName": "Secret Large",
+        "purpose": "Generated password in the generator plate."
+      },
+      "secret-medium": {
+        "displayName": "Secret Medium",
+        "purpose": "Revealed secrets, password fields in clear, length readout."
+      },
+      "secret-small": {
+        "displayName": "Secret Small",
+        "purpose": "Measurements such as entropy bits."
+      }
+    },
+    "shadows": [
+      {
+        "name": "fab-default",
+        "value": "Material 3 extended FAB default elevation",
+        "purpose": "The only cast shadow in the app (plus Material snackbars/dialogs); plates and rows are tonal, never shadowed."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-emphasized-decelerate",
+        "value": "cubic-bezier(0.05, 0.7, 0.1, 1)",
+        "purpose": "Arrivals: key-cap flight, shackle lift, tumbler roll, copy check, form messages opening."
+      },
+      {
+        "name": "ease-emphasized-accelerate",
+        "value": "cubic-bezier(0.3, 0, 0.8, 0.15)",
+        "purpose": "Departures and the snap of a shackle closing."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "Changes in place: strength colours, verdict colour."
+      },
+      {
+        "name": "duration-short",
+        "value": "150ms",
+        "purpose": "BovedaMotion.SHORT: fades and small feedback."
+      },
+      {
+        "name": "duration-medium",
+        "value": "250ms",
+        "purpose": "BovedaMotion.MEDIUM: copy check/label roll, verdict colour, status band, form message open."
+      },
+      {
+        "name": "duration-long",
+        "value": "400ms",
+        "purpose": "BovedaMotion.LONG: the ceiling; no motion runs longer."
+      },
+      {
+        "name": "keycap-shared-element",
+        "value": "380ms ease-emphasized-decelerate",
+        "purpose": "Key cap lifts off its list row and lands in the detail header (40dp → 60dp) and back; predictive Back scrubs it."
+      },
+      {
+        "name": "shackle-unlock",
+        "value": "220ms ease-emphasized-decelerate",
+        "purpose": "Padlock shackle lifts on unlock."
+      },
+      {
+        "name": "shackle-lock",
+        "value": "220ms delay + 240ms keyframes (accelerate to -0.12 over-seat at 150ms, then standard settle)",
+        "purpose": "Shackle snaps shut with a slight over-seat after the lock screen fades in, so the click is seen."
+      },
+      {
+        "name": "rejection-swing",
+        "value": "spring(dampingRatio 0.32, stiffness 420), initial velocity 340°/s about the ring hole; shackle rattle 70ms up + 130ms down; Reject haptic",
+        "purpose": "Pendulum swing of the emblem when the master password is rejected."
+      },
+      {
+        "name": "tumbler-roll",
+        "value": "180ms window per character, stagger min(16ms, 160ms/length), linear clock with emphasized-decelerate per cell; total ≲340ms",
+        "purpose": "Secrets change like pin tumblers; unchanged characters stay; instant while dragging the length slider."
+      },
+      {
+        "name": "copy-confirmation",
+        "value": "icon scale 0.4→1 + fade (250ms in / 100ms out), label rolls up by half height; Confirm haptic; hold 1.6s",
+        "purpose": "Copy acknowledgement under the thumb."
+      },
+      {
+        "name": "strength-fill",
+        "value": "200ms ease-standard per segment, 30ms stagger; rises left-to-right, drains right-to-left",
+        "purpose": "Strength meter fills in order so the direction of change reads at once."
+      },
+      {
+        "name": "nav-bar-hide",
+        "value": "scaffold spring",
+        "purpose": "Navigation bar slides away for pushed screens on compact windows and back on return."
+      },
+      {
+        "name": "section-fade-through",
+        "value": "fade in 210ms after 90ms + scale 0.96→1; fade out 90ms",
+        "purpose": "Switching between top-level sections."
+      },
+      {
+        "name": "entry-shared-axis",
+        "value": "slide 1/8 width 260ms + fade 160ms after 60ms; exit fade 90ms",
+        "purpose": "Into and out of an entry."
+      },
+      {
+        "name": "list-animate-item",
+        "value": "Compose animateItem",
+        "purpose": "Rows reflow while searching."
+      },
+      {
+        "name": "form-message",
+        "value": "expand 250ms decelerate + fade 250ms after 50ms; shrink 150ms accelerate + fade 100ms",
+        "purpose": "Errors and notices open their own line."
+      },
+      {
+        "name": "placeholder-pulse",
+        "value": "alpha 0.55↔1, 700ms reverse",
+        "purpose": "Placeholder rows while the vault decrypts."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "system 'Remove animations' → cuts",
+        "purpose": "All motion ≤ ~400ms, never blocks input, and collapses to cuts under the system setting."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "<600dp (navigation bar)"
+      },
+      {
+        "name": "medium/expanded",
+        "value": "≥600dp (navigation rail via NavigationSuiteScaffold adaptive info)"
+      },
+      {
+        "name": "form-width",
+        "value": "440dp"
+      },
+      {
+        "name": "readable-width",
+        "value": "600dp"
+      },
+      {
+        "name": "list-width",
+        "value": "720dp"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (thumb-reach copy)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action, pinned at the bottom of the detail: brass pill, 56dp, copy icon and label that rolls to the copied label.",
+      "html": "<button class=\"ds-btn-primary\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Z\"/></svg><span>Copiar contraseña</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 600px; height: 56px; padding: 0 24px; border: none; border-radius: 9999px; background: #876214; color: #FFFFFF; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.1px; cursor: pointer; transition: background 150ms cubic-bezier(0.2,0,0,1); } .ds-btn-primary:hover { background: #7a5812; } .ds-btn-primary:active { background: #6c4f10; } .ds-btn-primary:focus-visible { outline: 3px solid #E9C46A; outline-offset: 2px; }"
+    },
+    {
+      "name": "Outlined Button",
+      "kind": "button",
+      "refersTo": "button-outlined",
+      "description": "Secondary action beside the primary, e.g. 'Generar otra' in the generator; 52dp pill.",
+      "html": "<button class=\"ds-btn-outlined\">Generar otra</button>",
+      "css": ".ds-btn-outlined { height: 52px; padding: 0 24px; border: 1px solid #737A82; border-radius: 9999px; background: transparent; color: #876214; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1px; cursor: pointer; transition: background 150ms cubic-bezier(0.2,0,0,1); } .ds-btn-outlined:hover { background: rgba(135,98,20,0.08); } .ds-btn-outlined:focus-visible { outline: 3px solid #E9C46A; outline-offset: 2px; }"
+    },
+    {
+      "name": "Extended FAB 'Nueva'",
+      "kind": "button",
+      "refersTo": "fab-extended",
+      "description": "The vault list's create action in polished brass, bottom right; the only floating element (Material default elevation).",
+      "html": "<button class=\"ds-fab\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z\"/></svg><span>Nueva</span></button>",
+      "css": ".ds-fab { display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 20px 0 16px; border: none; border-radius: 20px; background: #E9C46A; color: #251A00; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 3px rgba(0,0,0,0.12); cursor: pointer; } .ds-fab:hover { background: #e2bb5c; } .ds-fab:focus-visible { outline: 3px solid #876214; outline-offset: 2px; }"
+    },
+    {
+      "name": "Shell Top Bar with Docked Search",
+      "kind": "nav",
+      "refersTo": "search-field-shell",
+      "description": "Graphite top-level bar: Title Large title, lock action, and a 28dp search pill in shellField with brass caret.",
+      "html": "<header class=\"ds-shell\"><div class=\"ds-shell-row\"><span class=\"ds-shell-title\">Bóveda</span></div><label class=\"ds-search\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z\"/></svg><input placeholder=\"Buscar en 7 contraseñas\"></label></header>",
+      "css": ".ds-shell { background: #20262C; color: #F1F3F5; padding: 8px 0 12px; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; max-width: 420px; } .ds-shell-row { height: 56px; display: flex; align-items: center; padding: 0 16px; } .ds-shell-title { font-size: 20px; line-height: 28px; font-weight: 600; } .ds-search { display: flex; align-items: center; gap: 12px; margin: 0 16px; height: 56px; padding: 0 16px; border-radius: 28px; background: #2E353C; color: #AAB3BB; } .ds-search input { flex: 1; border: none; background: transparent; color: #F1F3F5; font: 400 16px/24px 'Atkinson Hyperlegible Next', system-ui, sans-serif; letter-spacing: 0.15px; caret-color: #E9C46A; outline: none; } .ds-search input::placeholder { color: #AAB3BB; } .ds-search:focus-within { box-shadow: inset 0 0 0 2px #E9C46A; }"
+    },
+    {
+      "name": "Shell Navigation Bar",
+      "kind": "nav",
+      "refersTo": "navigation-shell",
+      "description": "Graphite bottom bar (rail on expanded windows); selected item gets a brass indicator pill.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item is-selected\" href=\"#\"><span class=\"ds-nav-ind\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M280-400q-33 0-56.5-23.5T200-480q0-33 23.5-56.5T280-560q33 0 56.5 23.5T360-480q0 33-23.5 56.5T280-400Zm0 160q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Z\"/></svg></span><span>Bóveda</span></a><a class=\"ds-nav-item\" href=\"#\"><span class=\"ds-nav-ind\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M280-400q-33 0-56.5-23.5T200-480q0-33 23.5-56.5T280-560q33 0 56.5 23.5T360-480q0 33-23.5 56.5T280-400Zm0 160q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Z\"/></svg></span><span>Generador</span></a><a class=\"ds-nav-item\" href=\"#\"><span class=\"ds-nav-ind\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M280-400q-33 0-56.5-23.5T200-480q0-33 23.5-56.5T280-560q33 0 56.5 23.5T360-480q0 33-23.5 56.5T280-400Zm0 160q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Z\"/></svg></span><span>Ajustes</span></a></nav>",
+      "css": ".ds-nav { display: flex; background: #20262C; padding: 12px 0 16px; max-width: 420px; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; } .ds-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #AAB3BB; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.3px; } .ds-nav-ind { width: 64px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; transition: background 150ms cubic-bezier(0.2,0,0,1); } .ds-nav-item:hover .ds-nav-ind { background: rgba(241,243,245,0.08); } .ds-nav-item.is-selected { color: #F1F3F5; } .ds-nav-item.is-selected .ds-nav-ind { background: #E9C46A; color: #251A00; } .ds-nav-item:focus-visible { outline: 2px solid #E9C46A; outline-offset: 2px; }"
+    },
+    {
+      "name": "Entry Row",
+      "kind": "card",
+      "refersTo": "entry-row",
+      "description": "72dp list row: 40dp label-derived key cap, title and username, 48dp copy button; hairline divider inset 72dp.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-keycap\" style=\"--cap:#B4532A;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">B</span><span class=\"ds-keycap-stub\"></span></span><div class=\"ds-row-text\"><div class=\"ds-row-title\"><b>Ban</b>co Santander</div><div class=\"ds-row-sub\">ana.garcia</div></div><button class=\"ds-icon-btn\" aria-label=\"Copiar la contraseña de Banco Santander\"><svg viewBox=\"0 -960 960 960\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Z\"/></svg></button></div>",
+      "css": ".ds-keycap { position: relative; display: inline-block; flex: none; } .ds-keycap-head { position: absolute; inset: 0 0 16% 0; background: var(--cap); border-radius: 30% / 35.7%; color: var(--stamp); font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-top: 12%; box-sizing: border-box; } .ds-keycap-head::before { content: ''; position: absolute; top: 19%; left: 50%; width: 15%; height: 15%; transform: translate(-50%, -50%); border-radius: 50%; background: #F1F3F5; } .ds-keycap-stub { position: absolute; left: 37%; width: 26%; bottom: 0; height: 24%; background: var(--cap); border-radius: 0 0 5% 5% / 0 0 20% 20%; } .ds-row { display: flex; align-items: center; gap: 16px; height: 72px; padding: 0 16px; background: #F1F3F5; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; max-width: 420px; position: relative; } .ds-row::after { content: ''; position: absolute; left: 72px; right: 0; bottom: 0; height: 1px; background: #C2C8CE; } .ds-row:hover { background: #E5E9EC; } .ds-row-text { flex: 1; min-width: 0; } .ds-row-title { font-size: 16px; line-height: 24px; color: #191C1F; letter-spacing: 0.15px; font-weight: 400; } .ds-row-title b { font-weight: 700; } .ds-row-sub { font-size: 14px; line-height: 20px; color: #434A51; } .ds-icon-btn { width: 48px; height: 48px; border: none; border-radius: 50%; background: transparent; color: #434A51; display: flex; align-items: center; justify-content: center; cursor: pointer; } .ds-icon-btn:hover { background: rgba(25,28,31,0.08); } .ds-icon-btn:focus-visible { outline: 2px solid #876214; }"
+    },
+    {
+      "name": "Key Caps (identity)",
+      "kind": "custom",
+      "refersTo": "key-cap",
+      "description": "The eight anodized caps with punched ring hole and stamped initial; hue derived from the label, used only for identity.",
+      "html": "<div class=\"ds-caps\"><span class=\"ds-keycap\" style=\"--cap:#2F5BD3;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">A</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#1F7F54;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">B</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#7046C2;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">C</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#B4532A;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">D</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#C99A2E;--stamp:#221800;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">E</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#0F7C86;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">F</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#AE3678;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">G</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#4B5967;--stamp:#FFFFFF;width:40px;height:40px;font-size:16px\"><span class=\"ds-keycap-head\">H</span><span class=\"ds-keycap-stub\"></span></span><span class=\"ds-keycap\" style=\"--cap:#2F5BD3;--stamp:#FFFFFF;width:60px;height:60px;font-size:24px\"><span class=\"ds-keycap-head\">B</span><span class=\"ds-keycap-stub\"></span></span></div>",
+      "css": ".ds-keycap { position: relative; display: inline-block; flex: none; } .ds-keycap-head { position: absolute; inset: 0 0 16% 0; background: var(--cap); border-radius: 30% / 35.7%; color: var(--stamp); font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-top: 12%; box-sizing: border-box; } .ds-keycap-head::before { content: ''; position: absolute; top: 19%; left: 50%; width: 15%; height: 15%; transform: translate(-50%, -50%); border-radius: 50%; background: #F1F3F5; } .ds-keycap-stub { position: absolute; left: 37%; width: 26%; bottom: 0; height: 24%; background: var(--cap); border-radius: 0 0 5% 5% / 0 0 20% 20%; } .ds-caps { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; padding: 12px; background: #F1F3F5; }"
+    },
+    {
+      "name": "Secret Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "A raised plate (lighter than the ground, 20dp corners) holding fields; the revealed secret in Atkinson Mono with digits in blued steel and symbols in light graphite, and the strength indicator.",
+      "html": "<section class=\"ds-plate\"><div class=\"ds-field\"><div class=\"ds-field-label\">Contraseña</div><div class=\"ds-secret\">u<span class=\"s\">&amp;</span><span class=\"s\">*</span>CfD<span class=\"d\">4</span>pb<span class=\"s\">+</span><span class=\"s\">#</span><span class=\"d\">4</span><span class=\"s\">!</span><span class=\"s\">?</span>Q<span class=\"s\">,</span>zw<span class=\"d\">6</span><span class=\"s\">,</span></div><div class=\"ds-meter\"><i></i><i></i><i></i><i></i><i></i></div><div class=\"ds-verdict\"><b>Muy fuerte</b><span>  ·  131 bits</span></div><div class=\"ds-detail\">Adivinarla llevaría más de un millón de años</div></div><div class=\"ds-field\"><div class=\"ds-field-label\">Usuario</div><div class=\"ds-value\">ana.garcia</div></div></section>",
+      "css": ".ds-plate { background: #FFFFFF; border-radius: 20px; max-width: 420px; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; overflow: hidden; } .ds-field { padding: 12px 16px 12px 16px; min-height: 72px; box-sizing: border-box; } .ds-field + .ds-field { border-top: 1px solid #C2C8CE; } .ds-field-label { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.3px; color: #434A51; } .ds-value { margin-top: 8px; font-size: 16px; line-height: 24px; color: #191C1F; } .ds-secret { margin-top: 8px; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 500; font-size: 17px; line-height: 24px; color: #191C1F; } .ds-secret .d { color: #3B5C80; } .ds-secret .s { color: #5C646C; } .ds-meter { display: flex; gap: 4px; height: 6px; margin-top: 16px; } .ds-meter i { flex: 1; border-radius: 3px; background: #14694F; transition: background 200ms cubic-bezier(0.2,0,0,1); } .ds-verdict { margin-top: 8px; } .ds-verdict b { color: #14694F; font-size: 14px; font-weight: 600; } .ds-verdict span { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 13px; color: #434A51; white-space: pre; } .ds-detail { font-size: 12px; line-height: 16px; color: #434A51; letter-spacing: 0.2px; }"
+    },
+    {
+      "name": "Password Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "Outlined field with show/hide eye; shown in clear it switches to the secret mono and inks.",
+      "html": "<label class=\"ds-input\"><span class=\"ds-input-label\">Contraseña maestra</span><input type=\"password\" value=\"correcto-caballo-7\"></label>",
+      "css": ".ds-input { position: relative; display: block; max-width: 440px; font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; } .ds-input input { width: 100%; box-sizing: border-box; height: 56px; padding: 0 16px; border: 1px solid #737A82; border-radius: 6px; background: transparent; color: #191C1F; font: 400 16px/24px 'Atkinson Hyperlegible Next', system-ui, sans-serif; } .ds-input-label { position: absolute; top: -8px; left: 12px; padding: 0 4px; background: #F1F3F5; font-size: 12px; color: #434A51; } .ds-input input:hover { border-color: #191C1F; } .ds-input input:focus-visible { outline: none; border: 2px solid #876214; padding: 0 15px; } .ds-input:focus-within .ds-input-label { color: #876214; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Locksmith's Key Board",
+    "overview": "Bóveda is a board of hanging keys. Every account is a key with an anodized aluminium cap and a stamped initial; the board is brushed steel, the frame around the top-level places is a graphite shell panel, and brass marks the one thing to press. Secrets are stamped in a mono drawn to keep 0 from O and l from 1, and they read back character by character in their own inks. The category default it rejects is the navy-and-neon shield app with a grey list and one blue accent.\n\nDensity is list density: 72dp rows separated by hairlines inset past the key cap, one column capped to a readable width on large windows, and a thumb-reach primary action at the bottom of the detail screen. Rank comes from weight in a tight type scale, not from size jumps or colour. Depth is tonal (raised white plates on a cool grey ground) rather than shadowed.\n\nMotion is mechanical and short: things move the way their physical counterparts would (a key lifts off its hook, a padlock shackle lifts and clicks shut, pins roll in a tumbler, a rejected key swings on its ring). Nothing waits on an animation, and the system \"Remove animations\" setting turns every one into a cut.",
+    "keyCharacteristics": [
+      "Cool brushed-steel ground (#F1F3F5 light, #101316 dark), never cream.",
+      "Graphite shell panel only on top-level places: top bar, docked search, navigation bar or rail.",
+      "Brass for the one primary action and the selected navigation item.",
+      "Eight anodized key-cap hues used only for account identity, derived from the label.",
+      "Atkinson Hyperlegible Next for all UI, Atkinson Hyperlegible Mono for every secret and measurement.",
+      "Tonal depth; plates are lighter than the ground in both themes.",
+      "Mechanical motion, all within about 400 ms, never blocking input."
+    ],
+    "rules": [
+      {
+        "name": "The Colour Quarantine Rule",
+        "body": "Each family of colour has one job. Key-cap hues mean \"which account\", brass means \"press this\", strength colours mean \"how strong\", error means \"wrong\". No cap hue appears on a control, and no action uses a cap hue. Secrets read back in their own inks (secretDigit, secretSymbol), never a cap hue and never the action brass.",
+        "section": "colors"
+      },
+      {
+        "name": "The Label-Derived Cap Rule",
+        "body": "A cap's hue comes from a hash of the trimmed, lowercased label modulo eight, so an account wears the same cap in the list row, in flight and in the detail header. Collisions among eight hues are expected and accepted. Do not add hues or pick by position to avoid them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Shell Marks Places Rule",
+        "body": "Graphite is reserved for top-level destinations (Bóveda, Generador, Ajustes). Pushed screens (detail, editor) use a plain steel top bar, so the shell itself tells you where you are.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wallpaper Opt-In Rule",
+        "body": "Material You colour is opt-in from Ajustes (Android 12+). When it is on, the shell maps to surfaceContainer and onSurface, shellField to surfaceContainerHighest, the indicator to secondaryContainer, and plates to surfaceContainerLowest (light) or surfaceContainer (dark). Key caps, secret inks and the strength scale keep their own values.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rank by Weight Rule",
+        "body": "The scale is tight (about 1.15 per step). Hierarchy comes from SemiBold against Regular, not from size jumps or colour. Search matches are highlighted in Bold inside the row's own text, never with a colour.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Is for Secrets Rule",
+        "body": "Every secret and every number someone compares character by character (passwords shown in clear, entropy bits, generator length) is set in Atkinson Hyperlegible Mono. Prose and labels are never mono. A hidden secret is always ten dots (\"••••••••••\"), so it never reveals its length.",
+        "section": "typography"
+      },
+      {
+        "name": "The Raised Plate Rule",
+        "body": "A secret sits on a plate (plate colour, 20dp corners, hairline dividers between fields) that is lighter than the ground. Do not lift it with a shadow, and do not sink it into a darker well.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep each colour family to its job: caps for identity, brass for the one action and selection, strength colours for strength, error for errors.",
+      "**Do** derive a key cap's hue from its label and accept collisions among the eight hues.",
+      "**Do** set every secret and every compared number in Atkinson Hyperlegible Mono, with digits in secretDigit and symbols in secretSymbol.",
+      "**Do** rank by weight (SemiBold vs Regular) and highlight search matches in Bold.",
+      "**Do** put a secret on a plate lighter than the ground, with hairline dividers between fields.",
+      "**Do** pin the primary action within thumb reach at the bottom of the detail (56dp, full width up to 600dp).",
+      "**Do** keep graphite for top-level places and align expanded-window bar content to the column with ShellPanel.",
+      "**Do** keep motion mechanical, within about 400 ms, and never blocking input, and let \"Remove animations\" cut it.",
+      "**Do** show the crack time, not a pattern tip, at the top strength rating."
+    ],
+    "donts": [
+      "**Don't** colour a secret's characters with a key-cap hue or the action brass.",
+      "**Don't** use a key-cap hue on a control, or brass for anything but the primary action and selection.",
+      "**Don't** warm the ground toward cream. The steel is cool grey in both themes.",
+      "**Don't** add a second accent or a blue-shield palette.",
+      "**Don't** lift plates or rows with shadows. Depth is tonal.",
+      "**Don't** reveal a hidden secret's length. The mask is always ten dots.",
+      "**Don't** make the user wait on an animation. Rolls and flights run while the screen is already usable."
+    ]
+  }
+}

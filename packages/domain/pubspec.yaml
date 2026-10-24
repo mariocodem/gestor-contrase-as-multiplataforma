@@ -1,0 +1,15 @@
+name: boveda_domain
+description: Business rules of Bóveda. Pure Dart, no framework; every other layer depends on it.
+publish_to: none
+version: 1.0.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.26.0
