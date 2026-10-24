@@ -61,7 +61,7 @@ se puede recuperar (por diseño).
 ## 3. Apuntar la app a tu Worker
 
 ```sh
-cp config/prod.example.json config/prod.json          # pon la URL del paso anterior
+cp config/prod.json config/prod.json          # pon la URL del paso anterior
 flutter run --dart-define-from-file=config/prod.json  # -d android | linux | chrome | windows | macos | ios
 ```
 
