@@ -14,9 +14,17 @@ abstract final class BovedaMotion {
   /// Changes in place.
   static const standard = Cubic(0.2, 0, 0, 1);
 
+  /// A small overshoot, for things that seat themselves (the dock indicator, a stamped check). Its
+  /// values pass 1: use it on position and scale only, never on opacity or under another curve.
+  static const seat = Cubic(0.34, 1.36, 0.64, 1);
+
+  static const press = Duration(milliseconds: 110);
   static const short = Duration(milliseconds: 150);
   static const medium = Duration(milliseconds: 250);
   static const long = Duration(milliseconds: 400);
+
+  /// A screen's content arriving in sequence; the screen is usable from the first frame.
+  static const entrance = Duration(milliseconds: 520);
 
   /// False when the user asked the system for no animations.
   static bool enabled(BuildContext context) => !MediaQuery.disableAnimationsOf(context);

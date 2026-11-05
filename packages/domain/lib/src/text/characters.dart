@@ -1,6 +1,8 @@
 /// Character classes and accent folding for single UTF-16 code units, as Kotlin's `Char` saw them.
 library;
 
+import 'dart:typed_data';
+
 final _letter = RegExp(r'\p{L}', unicode: true);
 final _digit = RegExp(r'\p{Nd}', unicode: true);
 final _whitespace = RegExp(r'\s');
@@ -38,11 +40,21 @@ bool _isCombiningMark(int unit) => unit >= 0x0300 && unit <= 0x036F;
 
 /// [text] without accents and in lower case, one output code unit per input code unit (a
 /// combining mark becomes U+0000), so match positions stay valid in the original.
-String foldPerUnit(String text) => String.fromCharCodes(text.codeUnits.map((unit) {
-      if (_isCombiningMark(unit)) return 0;
-      final base = _baseOf[unit] ?? unit;
-      return String.fromCharCode(base).toLowerCase().codeUnitAt(0);
-    }));
+String foldPerUnit(String text) {
+  final folded = Uint16List(text.length);
+  for (var i = 0; i < folded.length; i++) {
+    final unit = text.codeUnitAt(i);
+    if (unit < 0x80) {
+      // ASCII, nearly all of a vault: runs on every keystroke, over every entry.
+      folded[i] = unit >= 0x41 && unit <= 0x5A ? unit + 0x20 : unit;
+    } else if (_isCombiningMark(unit)) {
+      folded[i] = 0;
+    } else {
+      folded[i] = String.fromCharCode(_baseOf[unit] ?? unit).toLowerCase().codeUnitAt(0);
+    }
+  }
+  return String.fromCharCodes(folded);
+}
 
 /// How search compares text: trimmed, lower case, accents ignored ("telefonica" finds "Telefónica").
 String foldForSearch(String text) =>

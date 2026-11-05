@@ -4,6 +4,7 @@ import 'package:boveda_presentation/src/generator/generator_cubit.dart';
 import 'package:boveda_presentation/src/lock/lock_cubit.dart';
 import 'package:boveda_presentation/src/vault/detail/entry_detail_cubit.dart';
 import 'package:boveda_presentation/src/vault/editor/entry_editor_cubit.dart';
+import 'package:boveda_presentation/src/vault/list/entry_list_item.dart';
 import 'package:boveda_presentation/src/vault/list/vault_list_cubit.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';

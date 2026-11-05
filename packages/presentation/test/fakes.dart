@@ -33,6 +33,9 @@ class FakeSettingsRepository implements SettingsRepository {
   Future<void> setDynamicColor(bool enabled) async => state.add(state.value.copyWith(dynamicColor: enabled));
 
   @override
+  Future<void> setThemeMode(AppThemeMode mode) async => state.add(state.value.copyWith(themeMode: mode));
+
+  @override
   Future<void> setGeneratorOptions(PasswordOptions options) async {
     savedOptions.add(options);
     state.add(state.value.copyWith(generatorOptions: options));

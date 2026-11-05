@@ -8,10 +8,10 @@ import 'package:go_router/go_router.dart';
 import '../../common/dependencies.dart';
 import '../../common/error_messages.dart';
 import '../../common/messages.dart';
-import '../../common/search_highlight.dart';
 import '../../common/strings.dart';
 import '../../navigation/app_router.dart';
-import '../key_cap_hero.dart';
+import 'entry_list_item.dart';
+import 'entry_row.dart';
 import 'vault_list_cubit.dart';
 
 class VaultListScreen extends StatelessWidget {
@@ -33,7 +33,11 @@ class _VaultListContent extends StatefulWidget {
 
 class _VaultListContentState extends State<_VaultListContent> {
   final _scroll = ScrollController();
-  var _fabExpanded = true;
+
+  // Scrolling drives these two directly: a scroll tick reaches the header and the button and
+  // nothing else, and neither rebuilds this screen.
+  final _collapse = ValueNotifier(0.0);
+  final _fabExpanded = ValueNotifier(true);
   late final StreamSubscription<String> _messages;
 
   @override
@@ -42,40 +46,73 @@ class _VaultListContentState extends State<_VaultListContent> {
     _messages = context.read<VaultListCubit>().messages.listen((text) {
       if (mounted) showMessage(context, text);
     });
-    _scroll.addListener(() {
-      final expanded = !_scroll.hasClients || _scroll.offset <= 0;
-      if (expanded != _fabExpanded) setState(() => _fabExpanded = expanded);
-    });
+    _scroll.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    // Two positions for a moment while the list cross-fades out and back in.
+    if (_scroll.positions.length != 1) return;
+    final offset = _scroll.offset;
+    _collapse.value = (offset / ShellHeader.collapseDistance).clamp(0.0, 1.0);
+    _fabExpanded.value = offset <= 0;
   }
 
   @override
   void dispose() {
     _messages.cancel();
     _scroll.dispose();
+    _collapse.dispose();
+    _fabExpanded.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<VaultListCubit>();
-    return BlocBuilder<VaultListCubit, VaultListState>(
-      builder: (context, state) => Scaffold(
-        appBar: ShellTopBar(
-          title: S.appTitle,
-          contentWidth: listWidth,
-          actions: [
-            IconButton(onPressed: cubit.lock, tooltip: S.lock, icon: const BovedaIcon(BovedaIcons.lock)),
-          ],
-          bottom: _ShellSearch(totalCount: state.totalCount, onChanged: cubit.onQueryChange),
-        ),
-        floatingActionButton: _NewEntryButton(expanded: _fabExpanded, onPressed: () => context.push(Paths.newEntry)),
-        body: AnimatedSwitcher(
-          // Placeholders, list and empty states cross-fade; rows already on screen don't blink.
-          duration: BovedaMotion.of(context, BovedaMotion.medium),
-          reverseDuration: BovedaMotion.of(context, BovedaMotion.short),
-          switchInCurve: const Interval(0.25, 1),
-          child: KeyedSubtree(key: ValueKey(_content(state)), child: _body(context, state)),
-        ),
+    return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: const ShellDockSpacer(),
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: _fabExpanded,
+        builder: (context, expanded, _) => _NewEntryButton(expanded: expanded, onPressed: () => context.push(Paths.newEntry)),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: BlocConsumer<VaultListCubit, VaultListState>(
+              listenWhen: (previous, current) => _content(previous) != _content(current),
+              listener: (context, state) {
+                // Whatever replaces the list starts from an open header.
+                if (_content(state) != _Content.entries) {
+                  _collapse.value = 0;
+                  _fabExpanded.value = true;
+                }
+              },
+              builder: (context, state) => AnimatedSwitcher(
+                // Placeholders, list and empty states cross-fade; rows already on screen don't blink.
+                duration: BovedaMotion.of(context, BovedaMotion.medium),
+                reverseDuration: BovedaMotion.of(context, BovedaMotion.short),
+                switchInCurve: const Interval(0.25, 1),
+                child: KeyedSubtree(key: ValueKey(_content(state)), child: _body(context, state)),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ShellHeader(
+              title: S.appTitle,
+              contentWidth: listWidth,
+              collapse: _collapse,
+              subtitle: S.vaultStatus,
+              actions: [
+                IconButton(onPressed: cubit.lock, tooltip: S.lock, icon: const BovedaIcon(BovedaIcons.lock)),
+              ],
+              bottom: _ShellSearch(onChanged: cubit.onQueryChange),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -90,44 +127,58 @@ class _VaultListContentState extends State<_VaultListContent> {
 
   Widget _body(BuildContext context, VaultListState state) {
     final cubit = context.read<VaultListCubit>();
+    final top = ShellHeader.extentOf(context, hasBottom: true);
+    Widget belowHeader(Widget child) => Padding(padding: EdgeInsets.only(top: top), child: child);
     return switch (_content(state)) {
-      _Content.loading => const Align(
+      _Content.loading => Align(
           alignment: Alignment.topCenter,
-          child: Padding(padding: EdgeInsets.only(top: 8), child: EntryRowPlaceholders()),
+          child: Padding(
+            padding: EdgeInsets.only(top: top + 8),
+            child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: listWidth), child: const EntryRowPlaceholders()),
+          ),
         ),
-      _Content.error => EmptyState(
-          icon: BovedaIcons.warning,
-          title: S.vaultErrorTitle,
-          body: errorMessage(state.error!),
-          action: OutlinedButton(onPressed: cubit.retry, child: const Text(S.retry)),
+      _Content.error => belowHeader(
+          EmptyState(
+            icon: BovedaIcons.warning,
+            title: S.vaultErrorTitle,
+            body: errorMessage(state.error!),
+            action: OutlinedButton(onPressed: cubit.retry, child: const Text(S.retry)),
+          ),
         ),
       _Content.empty => RefreshIndicator(
           onRefresh: cubit.refresh,
+          edgeOffset: top,
           child: LayoutBuilder(
             builder: (context, constraints) => SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: SizedBox(
                 height: constraints.maxHeight,
-                child: const EmptyState(icon: BovedaIcons.key, title: S.vaultEmptyTitle, body: S.vaultEmptyBody),
+                child: belowHeader(
+                  const EmptyState(icon: BovedaIcons.key, title: S.vaultEmptyTitle, body: S.vaultEmptyBody),
+                ),
               ),
             ),
           ),
         ),
-      _Content.noResults => EmptyState(
-          icon: BovedaIcons.search,
-          title: S.vaultNoResultsTitle,
-          body: S.vaultNoResultsBody(state.query.trim()),
+      _Content.noResults => belowHeader(
+          EmptyState(
+            icon: BovedaIcons.search,
+            title: S.vaultNoResultsTitle,
+            body: S.vaultNoResultsBody(state.query.trim()),
+          ),
         ),
       _Content.entries => RefreshIndicator(
           onRefresh: cubit.refresh,
+          edgeOffset: top,
           child: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: listWidth),
-              child: _AnimatedEntryList(
+              child: _EntryList(
                 items: state.items,
                 query: state.query,
                 controller: _scroll,
+                topInset: top,
                 onOpen: (id) => context.push(Paths.entry(id)),
                 onCopyPassword: cubit.copyPassword,
               ),
@@ -140,11 +191,11 @@ class _VaultListContentState extends State<_VaultListContent> {
 
 enum _Content { loading, error, empty, noResults, entries }
 
-/// The search field docked under the title on the graphite shell.
+/// The search field docked under the title on the graphite shell. Only this reads the counts, so a
+/// keystroke rebuilds the field and the rows, not the screen around them.
 class _ShellSearch extends StatefulWidget {
-  const _ShellSearch({required this.totalCount, required this.onChanged});
+  const _ShellSearch({required this.onChanged});
 
-  final int totalCount;
   final ValueChanged<String> onChanged;
 
   @override
@@ -153,6 +204,7 @@ class _ShellSearch extends StatefulWidget {
 
 class _ShellSearchState extends State<_ShellSearch> {
   final _controller = TextEditingController();
+  var _empty = true;
 
   @override
   void dispose() {
@@ -163,13 +215,14 @@ class _ShellSearchState extends State<_ShellSearch> {
   void _clear() {
     _controller.clear();
     widget.onChanged('');
-    setState(() {});
+    setState(() => _empty = true);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.bovedaColors;
     final theme = Theme.of(context);
+    const noEdge = OutlineInputBorder(borderRadius: BovedaShapes.medium, borderSide: BorderSide.none);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: Theme(
@@ -181,35 +234,55 @@ class _ShellSearchState extends State<_ShellSearch> {
           ),
         ),
         child: SizedBox(
-          height: 56,
-          child: TextField(
-            controller: _controller,
-            onChanged: (value) {
-              widget.onChanged(value);
-              setState(() {});
-            },
-            textInputAction: TextInputAction.search,
-            autocorrect: false,
-            onSubmitted: (_) => FocusScope.of(context).unfocus(),
-            style: theme.textTheme.bodyLarge?.copyWith(color: colors.onShell),
-            cursorColor: colors.shellIndicator,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: colors.shellField,
-              hintText: widget.totalCount > 0 ? S.vaultSearchCount(widget.totalCount) : S.vaultSearch,
-              hintStyle: theme.textTheme.bodyLarge?.copyWith(color: colors.onShellVariant),
-              prefixIcon: BovedaIcon(BovedaIcons.search, color: colors.onShellVariant),
-              suffixIcon: _controller.text.isEmpty
-                  ? null
-                  : IconButton(
-                      onPressed: _clear,
-                      tooltip: S.vaultClearSearch,
-                      icon: BovedaIcon(BovedaIcons.close, color: colors.onShell),
-                    ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
-              border: const OutlineInputBorder(borderRadius: BovedaShapes.extraLarge, borderSide: BorderSide.none),
-              enabledBorder: const OutlineInputBorder(borderRadius: BovedaShapes.extraLarge, borderSide: BorderSide.none),
-              focusedBorder: const OutlineInputBorder(borderRadius: BovedaShapes.extraLarge, borderSide: BorderSide.none),
+          height: 48,
+          child: BlocSelector<VaultListCubit, VaultListState, int>(
+            selector: (state) => state.totalCount,
+            builder: (context, total) => TextField(
+              controller: _controller,
+              onChanged: (value) {
+                final emptied = value.isEmpty != _empty;
+                _empty = value.isEmpty;
+                widget.onChanged(value);
+                if (emptied) setState(() {});
+              },
+              textInputAction: TextInputAction.search,
+              autocorrect: false,
+              onSubmitted: (_) => FocusScope.of(context).unfocus(),
+              style: theme.textTheme.bodyLarge?.copyWith(color: colors.onShell),
+              cursorColor: colors.shellIndicator,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: colors.shellField,
+                hintText: total > 0 ? S.vaultSearchCount(total) : S.vaultSearch,
+                hintStyle: theme.textTheme.bodyLarge?.copyWith(color: colors.onShellVariant),
+                prefixIcon: Center(
+                  widthFactor: 1,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 16, end: 12),
+                    child: BovedaIcon(BovedaIcons.search, size: 22, color: colors.onShellVariant),
+                  ),
+                ),
+                suffixIcon: _empty
+                    ? null
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const _MatchCount(),
+                          IconButton(
+                            onPressed: _clear,
+                            tooltip: S.vaultClearSearch,
+                            icon: BovedaIcon(BovedaIcons.close, color: colors.onShell),
+                          ),
+                        ],
+                      ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                border: noEdge,
+                enabledBorder: noEdge,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BovedaShapes.medium,
+                  borderSide: BorderSide(color: colors.shellIndicator, width: 1.5),
+                ),
+              ),
             ),
           ),
         ),
@@ -218,7 +291,26 @@ class _ShellSearchState extends State<_ShellSearch> {
   }
 }
 
-/// "Nueva" in polished brass, collapsing to its icon once the list scrolls.
+/// How many keys the search left on the board.
+class _MatchCount extends StatelessWidget {
+  const _MatchCount();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.bovedaColors;
+    return BlocSelector<VaultListCubit, VaultListState, int>(
+      selector: (state) => state.items.length,
+      builder: (context, count) => Semantics(
+        liveRegion: true,
+        label: S.vaultMatches(count),
+        excludeSemantics: true,
+        child: Text('$count', style: context.secretType.small.copyWith(color: colors.onShellVariant)),
+      ),
+    );
+  }
+}
+
+/// "Nueva", collapsing to its icon once the list scrolls.
 class _NewEntryButton extends StatelessWidget {
   const _NewEntryButton({required this.expanded, required this.onPressed});
 
@@ -230,7 +322,7 @@ class _NewEntryButton extends StatelessWidget {
         onPressed: onPressed,
         tooltip: expanded ? null : S.vaultNewDescription,
         isExtended: expanded,
-        extendedPadding: expanded ? null : const EdgeInsets.all(16),
+        extendedPadding: expanded ? null : const EdgeInsets.all(12),
         icon: const BovedaIcon(BovedaIcons.add, semanticLabel: S.vaultNewDescription),
         label: AnimatedSize(
           duration: BovedaMotion.of(context, BovedaMotion.medium),
@@ -240,13 +332,15 @@ class _NewEntryButton extends StatelessWidget {
       );
 }
 
-/// The rows, animated as a search narrows or widens them: rows that stay slide into their new
-/// places as the others fold away, so the key you're after is easy to follow.
-class _AnimatedEntryList extends StatefulWidget {
-  const _AnimatedEntryList({
+/// The rows, built as they scroll into view. The first screenful rises into place when the vault
+/// opens, all of it on one controller; filtering afterwards is instant, because finding the key is
+/// the point. A row found by id keeps its element (and its "copied" state) while the list narrows.
+class _EntryList extends StatefulWidget {
+  const _EntryList({
     required this.items,
     required this.query,
     required this.controller,
+    required this.topInset,
     required this.onOpen,
     required this.onCopyPassword,
   });
@@ -254,169 +348,71 @@ class _AnimatedEntryList extends StatefulWidget {
   final List<EntryListItem> items;
   final String query;
   final ScrollController controller;
+  final double topInset;
   final ValueChanged<String> onOpen;
   final ValueChanged<String> onCopyPassword;
 
   @override
-  State<_AnimatedEntryList> createState() => _AnimatedEntryListState();
+  State<_EntryList> createState() => _EntryListState();
 }
 
-class _AnimatedEntryListState extends State<_AnimatedEntryList> {
-  final _listKey = GlobalKey<SliverAnimatedListState>();
-  late List<EntryListItem> _shown = [...widget.items];
+class _EntryListState extends State<_EntryList> with SingleTickerProviderStateMixin {
+  late final AnimationController _entrance = AnimationController(vsync: this, duration: BovedaMotion.entrance);
+  late final _query = ValueNotifier(widget.query);
+
+  // The same widget instance for an unchanged entry, so the framework skips its whole subtree when
+  // the list rebuilds on a keystroke; only the text listening to [_query] changes.
+  final _rows = <String, (EntryListItem, Widget)>{};
 
   @override
-  void didUpdateWidget(_AnimatedEntryList old) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    playEntrance(context, _entrance);
+  }
+
+  @override
+  void didUpdateWidget(_EntryList old) {
     super.didUpdateWidget(old);
-    final list = _listKey.currentState;
-    if (list == null) {
-      _shown = [...widget.items];
-      return;
-    }
-    final animate = BovedaMotion.enabled(context);
-    final incoming = {for (final item in widget.items) item.id};
-    for (var i = _shown.length - 1; i >= 0; i--) {
-      if (incoming.contains(_shown[i].id)) continue;
-      final removed = _shown.removeAt(i);
-      list.removeItem(
-        i,
-        (context, animation) => _transition(animation, _row(removed, query: old.query)),
-        duration: animate ? const Duration(milliseconds: 150) : Duration.zero,
-      );
-    }
-    for (var j = 0; j < widget.items.length; j++) {
-      final item = widget.items[j];
-      if (j < _shown.length && _shown[j].id == item.id) {
-        _shown[j] = item;
-        continue;
-      }
-      final from = _shown.indexWhere((shown) => shown.id == item.id);
-      if (from >= 0) {
-        // Moved (a renamed entry): it leaves its old place at once and arrives at the new one.
-        _shown.removeAt(from);
-        list.removeItem(from, (context, animation) => const SizedBox.shrink(), duration: Duration.zero);
-      }
-      _shown.insert(j, item);
-      list.insertItem(j, duration: animate ? BovedaMotion.medium : Duration.zero);
-    }
+    _query.value = widget.query;
   }
-
-  Widget _transition(Animation<double> animation, Widget child) => SizeTransition(
-        sizeFactor: CurvedAnimation(parent: animation, curve: BovedaMotion.emphasizedDecelerate),
-        child: FadeTransition(opacity: CurvedAnimation(parent: animation, curve: const Interval(0.25, 1)), child: child),
-      );
-
-  Widget _row(EntryListItem item, {required String query}) => _EntryRow(
-        item: item,
-        query: query,
-        onTap: () => widget.onOpen(item.id),
-        onCopyPassword: () => widget.onCopyPassword(item.id),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-    return CustomScrollView(
-      controller: widget.controller,
-      physics: const AlwaysScrollableScrollPhysics(),
-      slivers: [
-        const SliverPadding(padding: EdgeInsets.only(top: 4)),
-        SliverAnimatedList(
-          key: _listKey,
-          initialItemCount: _shown.length,
-          itemBuilder: (context, index, animation) =>
-              _transition(animation, _row(_shown[index], query: widget.query)),
-        ),
-        // Room under the last row so the FAB never covers its copy button.
-        SliverPadding(padding: EdgeInsets.only(bottom: 96 + bottomInset)),
-      ],
-    );
-  }
-}
-
-class _EntryRow extends StatefulWidget {
-  const _EntryRow({required this.item, required this.query, required this.onTap, required this.onCopyPassword});
-
-  final EntryListItem item;
-  final String query;
-  final VoidCallback onTap;
-  final VoidCallback onCopyPassword;
-
-  @override
-  State<_EntryRow> createState() => _EntryRowState();
-}
-
-class _EntryRowState extends State<_EntryRow> {
-  final _copied = CopyConfirmation();
 
   @override
   void dispose() {
-    _copied.dispose();
+    _entrance.dispose();
+    _query.dispose();
     super.dispose();
+  }
+
+  Widget _row(int index, EntryListItem item) {
+    final cached = _rows[item.id];
+    if (cached != null && cached.$1 == item) return cached.$2;
+    final row = Stagger(
+      key: ValueKey(item.id),
+      animation: _entrance,
+      index: index,
+      child: EntryRow(
+        item: item,
+        query: _query,
+        onTap: () => widget.onOpen(item.id),
+        onCopyPassword: () => widget.onCopyPassword(item.id),
+      ),
+    );
+    _rows[item.id] = (item, row);
+    return row;
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final item = widget.item;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Material(
-          color: theme.colorScheme.surface,
-          child: InkWell(
-            onTap: widget.onTap,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 72),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 4, top: 8, bottom: 8),
-                child: Row(
-                  children: [
-                    KeyCapHero(entryId: item.id, child: KeyCap(label: item.title)),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text.rich(
-                            highlightMatches(item.title, widget.query),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                          if (item.subtitle.isNotEmpty)
-                            Text.rich(
-                              highlightMatches(item.subtitle, widget.query),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                            ),
-                        ],
-                      ),
-                    ),
-                    if (item.hasPassword)
-                      ListenableBuilder(
-                        listenable: _copied,
-                        builder: (context, _) => IconButton(
-                          onPressed: () {
-                            widget.onCopyPassword();
-                            _copied.confirm();
-                          },
-                          tooltip: S.vaultCopyPasswordOf(item.title),
-                          icon: CopyIcon(copied: _copied.isShowing),
-                        ),
-                      )
-                    else
-                      const SizedBox(width: 12),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        const Divider(indent: 72),
-      ],
+    final items = widget.items;
+    final indexOf = {for (final (index, item) in items.indexed) item.id: index};
+    return ListView.builder(
+      controller: widget.controller,
+      physics: const AlwaysScrollableScrollPhysics(),
+      // Room under the last row so the FAB never covers its copy button.
+      padding: EdgeInsets.only(top: widget.topInset + 8, bottom: 96 + MediaQuery.paddingOf(context).bottom),
+      itemCount: items.length,
+      findChildIndexCallback: (key) => indexOf[(key as ValueKey<String>).value],
+      itemBuilder: (context, index) => _row(index, items[index]),
     );
   }
 }

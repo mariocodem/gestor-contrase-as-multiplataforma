@@ -42,33 +42,33 @@ class UnlockedShell extends StatelessWidget {
     final rail = MediaQuery.sizeOf(context).width >= _railBreakpoint;
 
     if (!rail) {
-      // On phones the bar gives pushed screens the whole height, sliding away as the entry slides in.
-      final hideBar = !_topLevel;
+      // The dock floats over the pages, and on pushed screens it slides away by transform alone.
       return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: systemBarsOver(_topLevel ? colors.shell : theme.colorScheme.surface, hideBar ? theme.colorScheme.surface : colors.shell),
+        value: systemBarsOver(_topLevel ? colors.shell : theme.colorScheme.surface, theme.colorScheme.surface),
         child: Material(
           color: theme.colorScheme.surface,
-          child: Column(
-            children: [
-              Expanded(
-                child: MediaQuery.removePadding(context: context, removeBottom: !hideBar, child: shell),
-              ),
-              _SlidingBar(
-                hidden: hideBar,
-                child: NavigationBar(
-                  selectedIndex: shell.currentIndex,
-                  onDestinationSelected: _select,
-                  destinations: [
-                    for (final top in _TopLevel.values)
-                      NavigationDestination(
-                        icon: BovedaIcon(top.icon),
-                        selectedIcon: BovedaIcon(top.selectedIcon),
-                        label: top.label,
-                      ),
-                  ],
+          child: DockInset(
+            height: DockInset.extent(context),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                shell,
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: NavDock(
+                    hidden: !_topLevel,
+                    selectedIndex: shell.currentIndex,
+                    onSelected: _select,
+                    items: [
+                      for (final top in _TopLevel.values)
+                        NavDockItem(label: top.label, icon: top.icon, selectedIcon: top.selectedIcon),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -116,25 +116,6 @@ class UnlockedShell extends StatelessWidget {
       ),
     );
   }
-}
-
-/// The navigation bar sliding down out of the way (and back) as an entry opens and closes.
-class _SlidingBar extends StatelessWidget {
-  const _SlidingBar({required this.hidden, required this.child});
-
-  final bool hidden;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => ClipRect(
-        child: AnimatedAlign(
-          alignment: Alignment.topCenter,
-          heightFactor: hidden ? 0 : 1,
-          duration: BovedaMotion.of(context, const Duration(milliseconds: 260)),
-          curve: hidden ? BovedaMotion.emphasizedAccelerate : BovedaMotion.emphasizedDecelerate,
-          child: ExcludeFocus(excluding: hidden, child: ExcludeSemantics(excluding: hidden, child: child)),
-        ),
-      );
 }
 
 /// Material's fade-through between sections: the old one fades out in 90 ms, then the new one fades

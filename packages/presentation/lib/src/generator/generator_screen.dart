@@ -15,10 +15,8 @@ class GeneratorScreen extends StatelessWidget {
   const GeneratorScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => GeneratorCubit(context.read<Dependencies>()),
-        child: const _GeneratorTab(),
-      );
+  Widget build(BuildContext context) =>
+      BlocProvider(create: (context) => GeneratorCubit(context.read<Dependencies>()), child: const _GeneratorTab());
 }
 
 class _GeneratorTab extends StatefulWidget {
@@ -51,31 +49,29 @@ class _GeneratorTabState extends State<_GeneratorTab> {
   Widget build(BuildContext context) {
     final cubit = context.read<GeneratorCubit>();
     return Scaffold(
-      appBar: const ShellTopBar(title: S.generatorTitle, contentWidth: readableWidth),
+      extendBody: true,
+      bottomNavigationBar: const ShellDockSpacer(),
+      appBar: const ShellTopBar(title: S.generatorTitle, subtitle: S.generatorSubtitle, contentWidth: readableWidth),
       body: Align(
         alignment: Alignment.topCenter,
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: readableWidth),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + MediaQuery.paddingOf(context).bottom),
             child: GeneratorPanel(
               actions: [
                 Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FilledButton(
-                      onPressed: () {
-                        cubit.copy();
-                        _copied.confirm();
-                      },
-                      child: ListenableBuilder(
-                        listenable: _copied,
-                        builder: (context, _) => CopyButtonContent(
-                          copied: _copied.isShowing,
-                          label: S.generatorCopy,
-                          copiedLabel: S.generatorCopied,
-                        ),
-                      ),
+                  child: BovedaButton(
+                    size: BovedaButtonSize.large,
+                    fullWidth: true,
+                    onPressed: () {
+                      cubit.copy();
+                      _copied.confirm();
+                    },
+                    child: ListenableBuilder(
+                      listenable: _copied,
+                      builder: (context, _) =>
+                          CopyButtonContent(copied: _copied.isShowing, label: S.generatorCopy, copiedLabel: S.generatorCopied),
                     ),
                   ),
                 ),
@@ -96,56 +92,74 @@ class GeneratorSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => GeneratorCubit(context.read<Dependencies>()),
-        child: Builder(
-          builder: (context) {
-            final cubit = context.read<GeneratorCubit>();
-            return SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(24, 0, 24, 24 + MediaQuery.paddingOf(context).bottom),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(S.generatorSheetTitle, style: Theme.of(context).textTheme.titleLarge),
+    create: (context) => GeneratorCubit(context.read<Dependencies>()),
+    child: Builder(
+      builder: (context) {
+        final cubit = context.read<GeneratorCubit>();
+        return SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(24, 0, 24, 24 + MediaQuery.paddingOf(context).bottom),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text(S.generatorSheetTitle, style: Theme.of(context).textTheme.titleLarge),
+              ),
+              GeneratorPanel(
+                actions: [
+                  Expanded(
+                    child: BovedaButton(
+                      size: BovedaButtonSize.large,
+                      fullWidth: true,
+                      onPressed: () {
+                        final value = cubit.state.password?.value;
+                        if (value != null) Navigator.pop(context, value);
+                      },
+                      child: const Text(S.generatorUse),
+                    ),
                   ),
-                  GeneratorPanel(
-                    actions: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 52,
-                          child: FilledButton(
-                            onPressed: () {
-                              final value = cubit.state.password?.value;
-                              if (value != null) Navigator.pop(context, value);
-                            },
-                            child: const Text(S.generatorUse),
-                          ),
-                        ),
-                      ),
-                      _RegenerateButton(onPressed: cubit.regenerate),
-                    ],
-                  ),
+                  _RegenerateButton(onPressed: cubit.regenerate),
                 ],
               ),
-            );
-          },
-        ),
-      );
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }
 
-class _RegenerateButton extends StatelessWidget {
+/// "Generar otra": the arrow takes one turn while the new password rolls in.
+class _RegenerateButton extends StatefulWidget {
   const _RegenerateButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 52,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 20)),
-          child: const BovedaIcon(BovedaIcons.refresh, semanticLabel: S.generatorRegenerate),
-        ),
-      );
+  State<_RegenerateButton> createState() => _RegenerateButtonState();
+}
+
+class _RegenerateButtonState extends State<_RegenerateButton> with SingleTickerProviderStateMixin {
+  late final AnimationController _turn = AnimationController(vsync: this, duration: const Duration(milliseconds: 460));
+  late final _angle = CurvedAnimation(parent: _turn, curve: BovedaMotion.emphasizedDecelerate);
+
+  @override
+  void dispose() {
+    _angle.dispose();
+    _turn.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BovedaButton.icon(
+    size: BovedaButtonSize.large,
+    onPressed: () {
+      widget.onPressed();
+      if (BovedaMotion.enabled(context)) _turn.forward(from: 0);
+    },
+    child: RotationTransition(
+      turns: _angle,
+      child: const BovedaIcon(BovedaIcons.refresh, size: 20, semanticLabel: S.generatorRegenerate),
+    ),
+  );
 }

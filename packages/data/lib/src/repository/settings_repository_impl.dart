@@ -15,6 +15,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   static const _autoLock = 'auto_lock';
   static const _dynamicColor = 'dynamic_color';
+  static const _themeMode = 'theme_mode';
   static const _length = 'generator_length';
   static const _uppercase = 'generator_uppercase';
   static const _lowercase = 'generator_lowercase';
@@ -30,10 +31,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
     final generator = defaults.generatorOptions;
     try {
       final autoLock = await _preferences.getString(_autoLock);
+      final themeMode = await _preferences.getString(_themeMode);
       _settings.add(
         AppSettings(
           autoLock: AutoLockTimeout.values.where((value) => value.name == autoLock).firstOrNull ?? defaults.autoLock,
           dynamicColor: await _preferences.getBool(_dynamicColor) ?? defaults.dynamicColor,
+          themeMode: AppThemeMode.values.where((value) => value.name == themeMode).firstOrNull ?? defaults.themeMode,
           generatorOptions: PasswordOptions(
             length: await _preferences.getInt(_length) ?? generator.length,
             uppercase: await _preferences.getBool(_uppercase) ?? generator.uppercase,
@@ -61,6 +64,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> setDynamicColor(bool enabled) async {
     _settings.add((await _current).copyWith(dynamicColor: enabled));
     await _preferences.setBool(_dynamicColor, enabled);
+  }
+
+  @override
+  Future<void> setThemeMode(AppThemeMode mode) async {
+    _settings.add((await _current).copyWith(themeMode: mode));
+    await _preferences.setString(_themeMode, mode.name);
   }
 
   @override

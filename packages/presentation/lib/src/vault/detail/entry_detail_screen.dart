@@ -24,10 +24,8 @@ class EntryDetailScreen extends StatelessWidget {
   final String id;
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => EntryDetailCubit(context.read<Dependencies>(), id),
-        child: const _EntryDetailContent(),
-      );
+  Widget build(BuildContext context) =>
+      BlocProvider(create: (context) => EntryDetailCubit(context.read<Dependencies>(), id), child: const _EntryDetailContent());
 }
 
 class _EntryDetailContent extends StatefulWidget {
@@ -67,7 +65,6 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
   }
 
   Future<void> _confirmDelete(VaultEntry entry) async {
-    final theme = Theme.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -76,9 +73,10 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
         content: const Text(S.detailDeleteBody),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context, false), child: const Text(S.cancel)),
-          TextButton(
+          BovedaButton(
+            type: BovedaButtonType.error,
             onPressed: () => Navigator.pop(context, true),
-            child: Text(S.detailDelete, style: TextStyle(color: theme.colorScheme.error)),
+            child: const Text(S.detailDelete),
           ),
         ],
       ),
@@ -96,12 +94,10 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: systemBarsOver(theme.colorScheme.surface, theme.colorScheme.surface),
           child: Scaffold(
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () => context.pop(),
-                tooltip: S.back,
-                icon: const BovedaIcon(BovedaIcons.arrowBack),
-              ),
+              backgroundColor: Colors.transparent,
+              leading: IconButton(onPressed: () => context.pop(), tooltip: S.back, icon: const BovedaIcon(BovedaIcons.arrowBack)),
               actions: [
                 if (loaded != null) ...[
                   IconButton(
@@ -115,9 +111,7 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         onTap: () => _confirmDelete(loaded.entry),
-                        child: const Row(
-                          children: [BovedaIcon(BovedaIcons.delete), SizedBox(width: 12), Text(S.detailDelete)],
-                        ),
+                        child: const Row(children: [BovedaIcon(BovedaIcons.delete), SizedBox(width: 12), Text(S.detailDelete)]),
                       ),
                     ],
                   ),
@@ -137,23 +131,19 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
                           constraints: const BoxConstraints(maxWidth: readableWidth),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 56,
-                              child: FilledButton(
-                                onPressed: () {
-                                  cubit.copyPassword();
-                                  _passwordCopied.confirm();
-                                },
-                                child: ListenableBuilder(
-                                  listenable: _passwordCopied,
-                                  builder: (context, _) => CopyButtonContent(
-                                    copied: _passwordCopied.isShowing,
-                                    label: S.detailCopyPassword,
-                                    copiedLabel: S.detailPasswordCopied,
-                                    style: theme.textTheme.titleMedium,
-                                    gap: 10,
-                                  ),
+                            child: BovedaButton(
+                              size: BovedaButtonSize.large,
+                              fullWidth: true,
+                              onPressed: () {
+                                cubit.copyPassword();
+                                _passwordCopied.confirm();
+                              },
+                              child: ListenableBuilder(
+                                listenable: _passwordCopied,
+                                builder: (context, _) => CopyButtonContent(
+                                  copied: _passwordCopied.isShowing,
+                                  label: S.detailCopyPassword,
+                                  copiedLabel: S.detailPasswordCopied,
                                 ),
                               ),
                             ),
@@ -165,11 +155,11 @@ class _EntryDetailContentState extends State<_EntryDetailContent> {
             body: switch (state) {
               DetailLoading() => const SizedBox.shrink(),
               DetailMissing() => EmptyState(
-                  icon: BovedaIcons.key,
-                  title: S.detailMissingTitle,
-                  body: S.detailMissingBody,
-                  action: TextButton(onPressed: () => context.pop(), child: const Text(S.back)),
-                ),
+                icon: BovedaIcons.key,
+                title: S.detailMissingTitle,
+                body: S.detailMissingBody,
+                action: TextButton(onPressed: () => context.pop(), child: const Text(S.back)),
+              ),
               DetailLoaded() => _DetailBody(state: state),
             },
           ),
@@ -188,14 +178,25 @@ class _DetailBody extends StatefulWidget {
   State<_DetailBody> createState() => _DetailBodyState();
 }
 
-class _DetailBodyState extends State<_DetailBody> {
+class _DetailBodyState extends State<_DetailBody> with SingleTickerProviderStateMixin {
   final _usernameCopied = CopyConfirmation();
+  late final AnimationController _entrance = AnimationController(vsync: this, duration: BovedaMotion.entrance);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    playEntrance(context, _entrance);
+  }
 
   @override
   void dispose() {
+    _entrance.dispose();
     _usernameCopied.dispose();
     super.dispose();
   }
+
+  /// The plates follow the key down as it lands in the header.
+  Widget _arriving(int index, Widget child) => Stagger(animation: _entrance, index: index, step: 0.1, span: 0.6, child: child);
 
   @override
   Widget build(BuildContext context) {
@@ -203,120 +204,174 @@ class _DetailBodyState extends State<_DetailBody> {
     final cubit = context.read<EntryDetailCubit>();
     final entry = widget.state.entry;
     final hairline = Divider(color: theme.colorScheme.outlineVariant);
-    return Align(
-      alignment: Alignment.topCenter,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: readableWidth),
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-          children: [
-            _Header(entry: entry),
-            const SizedBox(height: 20),
-            Plate(
-              child: Column(
+    final barHeight = MediaQuery.paddingOf(context).top + (theme.appBarTheme.toolbarHeight ?? kToolbarHeight);
+    final tint = keyCapColorFor(entry.title, context.bovedaColors.keyCaps).cap;
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: barHeight + 220,
+          child: FadeTransition(
+            opacity: _entrance,
+            child: _IdentityWash(color: tint),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: barHeight),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: readableWidth),
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                 children: [
-                  if (entry.username.isNotEmpty) ...[
-                    _FieldRow(
-                      label: S.detailUsername,
-                      children: [
-                        Expanded(child: Text(entry.username, style: theme.textTheme.bodyLarge)),
-                        ListenableBuilder(
-                          listenable: _usernameCopied,
-                          builder: (context, _) => IconButton(
-                            onPressed: () {
-                              cubit.copyUsername();
-                              _usernameCopied.confirm();
-                            },
-                            tooltip: S.detailCopyUsername,
-                            icon: CopyIcon(copied: _usernameCopied.isShowing),
+                  _Header(entry: entry),
+                  const SizedBox(height: 24),
+                  _arriving(
+                    0,
+                    Plate(
+                      child: Column(
+                        children: [
+                          if (entry.username.isNotEmpty) ...[
+                            _FieldRow(
+                              label: S.detailUsername,
+                              children: [
+                                Expanded(child: Text(entry.username, style: theme.textTheme.bodyLarge)),
+                                ListenableBuilder(
+                                  listenable: _usernameCopied,
+                                  builder: (context, _) => IconButton(
+                                    onPressed: () {
+                                      cubit.copyUsername();
+                                      _usernameCopied.confirm();
+                                    },
+                                    tooltip: S.detailCopyUsername,
+                                    icon: CopyIcon(copied: _usernameCopied.isShowing),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            hairline,
+                          ],
+                          _FieldRow(
+                            label: S.detailPassword,
+                            children: entry.password.isEmpty
+                                ? [
+                                    Expanded(
+                                      child: Text(
+                                        S.detailNoPassword,
+                                        style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                                      ),
+                                    ),
+                                  ]
+                                : [
+                                    Expanded(
+                                      child: SecretText(
+                                        value: entry.password,
+                                        revealed: widget.state.passwordVisible,
+                                        hiddenDescription: S.detailHiddenPassword,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: cubit.togglePasswordVisible,
+                                      tooltip: widget.state.passwordVisible ? S.hidePassword : S.showPassword,
+                                      icon: EyeIcon(open: widget.state.passwordVisible),
+                                    ),
+                                  ],
                           ),
-                        ),
-                      ],
-                    ),
-                    hairline,
-                  ],
-                  _FieldRow(
-                    label: S.detailPassword,
-                    children: entry.password.isEmpty
-                        ? [
-                            Expanded(
-                              child: Text(
-                                S.detailNoPassword,
-                                style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                          if (entry.password.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: PasswordStrengthIndicator(strength: widget.state.strength),
                               ),
                             ),
-                          ]
-                        : [
-                            Expanded(
-                              child: SecretText(
-                                value: entry.password,
-                                revealed: widget.state.passwordVisible,
-                                hiddenDescription: S.detailHiddenPassword,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: cubit.togglePasswordVisible,
-                              tooltip: widget.state.passwordVisible ? S.hidePassword : S.showPassword,
-                              icon: BovedaIcon(
-                                widget.state.passwordVisible ? BovedaIcons.visibilityOff : BovedaIcons.visibility,
-                              ),
+                          if (entry.url.trim().isNotEmpty) ...[
+                            hairline,
+                            _FieldRow(
+                              label: S.detailWebsite,
+                              children: [
+                                Expanded(child: Text(entry.url, style: theme.textTheme.bodyLarge)),
+                                IconButton(
+                                  onPressed: () async {
+                                    final uri = Uri.tryParse(withScheme(entry.url.trim()));
+                                    if (uri != null) await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                  },
+                                  tooltip: S.detailOpenWebsite,
+                                  icon: const BovedaIcon(BovedaIcons.openInNew),
+                                ),
+                              ],
                             ),
                           ],
-                  ),
-                  if (entry.password.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: PasswordStrengthIndicator(strength: widget.state.strength),
+                        ],
                       ),
                     ),
-                  if (entry.url.trim().isNotEmpty) ...[
-                    hairline,
-                    _FieldRow(
-                      label: S.detailWebsite,
-                      children: [
-                        Expanded(child: Text(entry.url, style: theme.textTheme.bodyLarge)),
-                        IconButton(
-                          onPressed: () async {
-                            final uri = Uri.tryParse(withScheme(entry.url.trim()));
-                            if (uri != null) await launchUrl(uri, mode: LaunchMode.externalApplication);
-                          },
-                          tooltip: S.detailOpenWebsite,
-                          icon: const BovedaIcon(BovedaIcons.openInNew),
+                  ),
+                  if (entry.notes.trim().isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _arriving(
+                      1,
+                      Plate(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const _FieldLabel(S.detailNotes),
+                            const SizedBox(height: 4),
+                            Text(entry.notes, style: theme.textTheme.bodyLarge),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ],
+                  if (entry.updatedAt > 0)
+                    _arriving(
+                      2,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          // The copy is Spanish only, so the date follows Spanish conventions everywhere.
+                          S.detailUpdated(
+                            DateFormat('d MMM y, HH:mm', 'es').format(DateTime.fromMillisecondsSinceEpoch(entry.updatedAt)),
+                          ),
+                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
-            if (entry.notes.trim().isNotEmpty) ...[
-              const SizedBox(height: 16),
-              Plate(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const _FieldLabel(S.detailNotes),
-                    const SizedBox(height: 4),
-                    Text(entry.notes, style: theme.textTheme.bodyLarge),
-                  ],
-                ),
-              ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// The account's own hue, washing down from the top of the screen and fading into the steel: colour
+/// meaning "which account", as on its cap. A gradient painted once.
+class _IdentityWash extends StatelessWidget {
+  const _IdentityWash({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final strength = Theme.of(context).brightness == Brightness.dark ? 0.14 : 0.08;
+    return RepaintBoundary(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              color.withValues(alpha: strength),
+              color.withValues(alpha: 0),
             ],
-            if (entry.updatedAt > 0)
-              Padding(
-                padding: const EdgeInsets.only(left: 16, top: 16),
-                child: Text(
-                  // The copy is Spanish only, so the date follows Spanish conventions everywhere.
-                  S.detailUpdated(
-                    DateFormat('d MMM y, HH:mm', 'es').format(DateTime.fromMillisecondsSinceEpoch(entry.updatedAt)),
-                  ),
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                ),
-              ),
-          ],
+          ),
         ),
       ),
     );
@@ -334,20 +389,23 @@ class _Header extends StatelessWidget {
     final host = siteHost(entry.url);
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Row(
+      child: Column(
         children: [
-          KeyCapHero(entryId: entry.id, child: KeyCap(label: entry.title, size: 60)),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Semantics(header: true, child: Text(entry.title, style: theme.textTheme.headlineSmall)),
-                if (host != null)
-                  Text(host, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-              ],
-            ),
+          KeyCapHero(
+            entryId: entry.id,
+            child: KeyCap(label: entry.title, size: 64),
           ),
+          const SizedBox(height: 14),
+          Semantics(
+            header: true,
+            child: Text(entry.title, style: theme.textTheme.headlineMedium, textAlign: TextAlign.center),
+          ),
+          if (host != null)
+            Text(
+              host,
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
+            ),
         ],
       ),
     );
@@ -363,18 +421,18 @@ class _FieldRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 72),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 4, 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _FieldLabel(label),
-              Row(crossAxisAlignment: CrossAxisAlignment.center, children: children),
-            ],
-          ),
-        ),
-      );
+    constraints: const BoxConstraints(minHeight: 72),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 4, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _FieldLabel(label),
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: children),
+        ],
+      ),
+    ),
+  );
 }
 
 class _FieldLabel extends StatelessWidget {

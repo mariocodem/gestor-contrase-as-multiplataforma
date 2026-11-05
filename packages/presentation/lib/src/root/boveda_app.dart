@@ -1,4 +1,5 @@
 import 'package:boveda_designsystem/boveda_designsystem.dart';
+import 'package:boveda_domain/boveda_domain.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +45,10 @@ class _BovedaAppState extends State<BovedaApp> {
         child: BlocProvider.value(
           value: _root,
           child: DynamicColorBuilder(
-            builder: (light, dark) => BlocSelector<RootCubit, RootState, bool>(
-              selector: (state) => state.dynamicColor,
-              builder: (context, dynamicColor) {
-                final useDynamic = dynamicColor && light != null;
+            builder: (light, dark) => BlocSelector<RootCubit, RootState, (bool, AppThemeMode)>(
+              selector: (state) => (state.dynamicColor, state.themeMode),
+              builder: (context, look) {
+                final useDynamic = look.$1 && light != null;
                 return DynamicColorAvailability(
                   available: light != null,
                   child: MaterialApp.router(
@@ -56,7 +57,13 @@ class _BovedaAppState extends State<BovedaApp> {
                     locale: const Locale('es'),
                     supportedLocales: const [Locale('es')],
                     localizationsDelegates: GlobalMaterialLocalizations.delegates,
-                    themeMode: ThemeMode.system,
+                    themeMode: switch (look.$2) {
+                      AppThemeMode.system => ThemeMode.system,
+                      AppThemeMode.light => ThemeMode.light,
+                      AppThemeMode.dark => ThemeMode.dark,
+                    },
+                    themeAnimationDuration: BovedaMotion.medium,
+                    themeAnimationCurve: BovedaMotion.standard,
                     theme: _withTransitions(
                       bovedaTheme(brightness: Brightness.light, dynamicScheme: useDynamic ? light.harmonized() : null),
                     ),

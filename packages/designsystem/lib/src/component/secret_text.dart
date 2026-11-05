@@ -174,18 +174,18 @@ class _TumblerTextState extends State<TumblerText> with SingleTickerProviderStat
               constraints.hasBoundedWidth ? math.max(1, (constraints.maxWidth / cell.width).floor()) : length;
           final columns = math.min(length, maxColumns);
           final rows = (length + maxColumns - 1) ~/ maxColumns;
-          return SizedBox(
-            width: columns * cell.width,
-            height: rows * cell.height,
-            child: AnimatedBuilder(
-              animation: _roll,
-              builder: (context, _) => CustomPaint(
+          // The roll repaints this layer only: no rebuild, no layout, and nothing around it repaints.
+          return RepaintBoundary(
+            child: SizedBox(
+              width: columns * cell.width,
+              height: rows * cell.height,
+              child: CustomPaint(
                 painter: _TumblerPainter(
+                  roll: _roll,
                   glyphs: glyphs,
                   from: _from,
                   to: _to,
-                  // Settled unless a roll is running: every character shows its target.
-                  elapsed: _roll.isAnimating ? _roll.value * _rollDuration(math.max(_from.length, _to.length)) : double.infinity,
+                  duration: _rollDuration(math.max(_from.length, _to.length)),
                   columns: maxColumns,
                 ),
               ),
@@ -244,12 +244,20 @@ class _GlyphCache {
 }
 
 class _TumblerPainter extends CustomPainter {
-  _TumblerPainter({required this.glyphs, required this.from, required this.to, required this.elapsed, required this.columns});
+  _TumblerPainter({
+    required this.roll,
+    required this.glyphs,
+    required this.from,
+    required this.to,
+    required this.duration,
+    required this.columns,
+  }) : super(repaint: roll);
 
+  final Animation<double> roll;
   final _GlyphCache glyphs;
   final String from;
   final String to;
-  final double elapsed;
+  final double duration;
   final int columns;
 
   @override
@@ -258,6 +266,8 @@ class _TumblerPainter extends CustomPainter {
     final rows = math.max(1, ((size.height + 0.5) / cell.height).floor());
     final count = math.max(from.length, to.length);
     final stagger = _stagger(count);
+    // Settled unless a roll is running: every character shows its target.
+    final elapsed = roll.isAnimating ? roll.value * duration : double.infinity;
 
     for (var index = 0; index < count; index++) {
       final row = index ~/ columns;
@@ -273,24 +283,19 @@ class _TumblerPainter extends CustomPainter {
         if (old != null) glyphs[old].paint(canvas, Offset(x, y));
       } else {
         final eased = BovedaMotion.emphasizedDecelerate.transform(progress);
-        // Each cell is its own window: the old pin leaves upwards as the new one rises in.
-        final window = Rect.fromLTWH(x, y, cell.width, cell.height);
+        // Each cell is its own window: the old pin leaves upwards as the new one rises in. The clip
+        // alone hides them, as the housing of a real tumbler does; a per-glyph fade would cost two
+        // offscreen layers per character per frame.
         canvas.save();
-        canvas.clipRect(window);
-        if (old != null) _paintFaded(canvas, glyphs[old], Offset(x, y - eased * cell.height), 1 - eased, window);
-        if (next != null) _paintFaded(canvas, glyphs[next], Offset(x, y + (1 - eased) * cell.height), eased, window);
+        canvas.clipRect(Rect.fromLTWH(x, y, cell.width, cell.height));
+        if (old != null) glyphs[old].paint(canvas, Offset(x, y - eased * cell.height));
+        if (next != null) glyphs[next].paint(canvas, Offset(x, y + (1 - eased) * cell.height));
         canvas.restore();
       }
     }
   }
 
-  void _paintFaded(Canvas canvas, TextPainter painter, Offset offset, double alpha, Rect window) {
-    canvas.saveLayer(window, Paint()..color = Color.fromRGBO(0, 0, 0, alpha));
-    painter.paint(canvas, offset);
-    canvas.restore();
-  }
-
   @override
   bool shouldRepaint(_TumblerPainter old) =>
-      old.glyphs != glyphs || old.from != from || old.to != to || old.elapsed != elapsed || old.columns != columns;
+      old.roll != roll || old.glyphs != glyphs || old.from != from || old.to != to || old.columns != columns;
 }

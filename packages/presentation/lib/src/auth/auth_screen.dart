@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../common/dependencies.dart';
 import '../common/form_message.dart';
-import '../common/messages.dart';
 import '../common/strings.dart';
 import 'auth_cubit.dart';
 
@@ -30,15 +29,22 @@ class _AuthContent extends StatelessWidget {
       if (await cubit.submit()) TextInput.finishAutofillContext();
     }
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: systemBarsOver(theme.colorScheme.surface, theme.colorScheme.surface),
+    return VaultStage(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: BlocBuilder<AuthCubit, AuthState>(
+          // Fields keep their own text: a keystroke needn't rebuild the form.
+          buildWhen: (a, b) =>
+              a.isRegistering != b.isRegistering ||
+              a.isWorking != b.isWorking ||
+              a.error != b.error ||
+              a.info != b.info ||
+              a.password.isEmpty != b.password.isEmpty,
           builder: (context, state) => AutofillGroup(
             child: CenteredForm(
               children: [
-                const AppEmblem(),
-                const SizedBox(height: 24),
+                VaultDial(size: 104, working: state.isWorking, child: const AppEmblem(size: 48)),
+                const SizedBox(height: 20),
                 Semantics(header: true, child: Text(S.appTitle, style: theme.textTheme.headlineMedium)),
                 const SizedBox(height: 8),
                 _ModeCrossfade(
@@ -76,16 +82,13 @@ class _AuthContent extends StatelessWidget {
                 FormMessage(text: state.error, color: theme.colorScheme.error),
                 FormMessage(text: state.info, color: theme.colorScheme.onSurfaceVariant),
                 const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: FilledButton(
-                    onPressed: state.isWorking ? null : submit,
-                    child: _ModeCrossfade(
-                      child: state.isWorking
-                          ? const SizedBox.square(key: ValueKey('working'), dimension: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                          : Text(state.isRegistering ? S.authRegister : S.authSignIn, key: ValueKey(state.isRegistering)),
-                    ),
+                BovedaButton(
+                  size: BovedaButtonSize.large,
+                  fullWidth: true,
+                  loading: state.isWorking,
+                  onPressed: submit,
+                  child: _ModeCrossfade(
+                    child: Text(state.isRegistering ? S.authRegister : S.authSignIn, key: ValueKey(state.isRegistering)),
                   ),
                 ),
                 const SizedBox(height: 8),

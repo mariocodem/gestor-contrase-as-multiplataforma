@@ -54,9 +54,11 @@ abstract final class S {
   static const errorScreenTitle = 'No se pudo abrir la bóveda';
 
   // Vault list
+  static const vaultStatus = 'Cifrada en este dispositivo';
   static const vaultSearch = 'Buscar';
   static String vaultSearchCount(int count) => count == 1 ? 'Buscar en 1 contraseña' : 'Buscar en $count contraseñas';
   static const vaultClearSearch = 'Borrar búsqueda';
+  static String vaultMatches(int count) => count == 1 ? '1 resultado' : '$count resultados';
   static const vaultNew = 'Nueva';
   static const vaultNewDescription = 'Nueva contraseña';
   static String vaultCopyPasswordOf(String title) => 'Copiar contraseña de $title';
@@ -116,6 +118,7 @@ abstract final class S {
 
   // Generator
   static const generatorTitle = 'Generador';
+  static const generatorSubtitle = 'Una contraseña fuerte, en un toque';
   static const generatorSheetTitle = 'Generar contraseña';
   static const generatorCopy = 'Copiar';
   static const generatorCopied = 'Copiada';
@@ -184,6 +187,10 @@ abstract final class S {
   static String get settingsLockNowBody =>
       _android ? 'Vuelve a pedir la contraseña maestra o la huella.' : 'Vuelve a pedir la contraseña maestra.';
   static const settingsAppearance = 'Apariencia';
+  static const settingsTheme = 'Tema';
+  static const settingsThemeSystem = 'Sistema';
+  static const settingsThemeLight = 'Claro';
+  static const settingsThemeDark = 'Oscuro';
   static String get settingsDynamicColor => _android ? 'Colores del fondo de pantalla' : 'Colores del sistema';
   static String get settingsDynamicColorBody => _android
       ? 'Usa la paleta Material You en lugar del acero y latón.'

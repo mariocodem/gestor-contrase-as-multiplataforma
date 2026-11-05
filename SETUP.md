@@ -1,4 +1,4 @@
-# Bóveda: puesta en marcha
+# Bóveda: startup
 
 Estructura:
 
@@ -58,7 +58,7 @@ npx wrangler secret put RESEND_API_KEY
 Sin esto, la app avisa de que el restablecimiento no está configurado. La contraseña maestra nunca
 se puede recuperar (por diseño).
 
-## 3. Apuntar la app a tu Worker
+## 3. Apuntar la app al Worker
 
 ```sh
 cp config/prod.json config/prod.json          # pon la URL del paso anterior

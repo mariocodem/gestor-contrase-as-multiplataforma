@@ -1,84 +1,84 @@
 import 'package:flutter/material.dart';
 
-// Brushed steel ground, a graphite shell panel, brass for the one primary action.
-const steelLightScheme = ColorScheme(
+// Monochrome: a near-white or near-black ground, solid ink for the one action, hairlines for edges.
+// Colour is kept for what it means: which account (the caps), how strong, and what went wrong.
+const bovedaLightScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF876214),
+  primary: Color(0xFF171717),
   onPrimary: Color(0xFFFFFFFF),
-  primaryContainer: Color(0xFFE9C46A),
-  onPrimaryContainer: Color(0xFF251A00),
-  inversePrimary: Color(0xFFE9C46A),
-  secondary: Color(0xFF4E5D69),
+  primaryContainer: Color(0xFF171717),
+  onPrimaryContainer: Color(0xFFFFFFFF),
+  inversePrimary: Color(0xFFEDEDED),
+  secondary: Color(0xFF666666),
   onSecondary: Color(0xFFFFFFFF),
-  secondaryContainer: Color(0xFFD2DEE8),
-  onSecondaryContainer: Color(0xFF0B1D29),
-  tertiary: Color(0xFF2F5BD3),
+  secondaryContainer: Color(0xFFEBEBEB),
+  onSecondaryContainer: Color(0xFF171717),
+  tertiary: Color(0xFF0068D6),
   onTertiary: Color(0xFFFFFFFF),
-  tertiaryContainer: Color(0xFFDCE2FF),
-  onTertiaryContainer: Color(0xFF001550),
-  error: Color(0xFFB3261E),
+  tertiaryContainer: Color(0xFFE6F0FB),
+  onTertiaryContainer: Color(0xFF00264D),
+  error: Color(0xFFD6001C),
   onError: Color(0xFFFFFFFF),
-  errorContainer: Color(0xFFF9DEDC),
-  onErrorContainer: Color(0xFF410E0B),
-  surface: Color(0xFFF1F3F5),
-  onSurface: Color(0xFF191C1F),
-  onSurfaceVariant: Color(0xFF434A51),
-  surfaceTint: Color(0xFF876214),
-  inverseSurface: Color(0xFF2D3237),
-  onInverseSurface: Color(0xFFEEF1F4),
-  outline: Color(0xFF737A82),
-  outlineVariant: Color(0xFFC2C8CE),
+  errorContainer: Color(0xFFFDE8EA),
+  onErrorContainer: Color(0xFF5C0011),
+  surface: Color(0xFFFAFAFA),
+  onSurface: Color(0xFF171717),
+  onSurfaceVariant: Color(0xFF666666),
+  surfaceTint: Colors.transparent,
+  inverseSurface: Color(0xFF171717),
+  onInverseSurface: Color(0xFFEDEDED),
+  outline: Color(0xFF8F8F8F),
+  outlineVariant: Color(0xFFEBEBEB),
   scrim: Color(0xFF000000),
   shadow: Color(0xFF000000),
-  surfaceBright: Color(0xFFF7F9FA),
-  surfaceDim: Color(0xFFD2D7DC),
+  surfaceBright: Color(0xFFFFFFFF),
+  surfaceDim: Color(0xFFEBEBEB),
   surfaceContainerLowest: Color(0xFFFFFFFF),
-  surfaceContainerLow: Color(0xFFEBEEF1),
-  surfaceContainer: Color(0xFFE5E9EC),
-  surfaceContainerHigh: Color(0xFFDFE3E7),
-  surfaceContainerHighest: Color(0xFFD8DDE2),
+  surfaceContainerLow: Color(0xFFF7F7F7),
+  surfaceContainer: Color(0xFFF2F2F2),
+  surfaceContainerHigh: Color(0xFFEBEBEB),
+  surfaceContainerHighest: Color(0xFFE0E0E0),
 );
 
-const steelDarkScheme = ColorScheme(
+const bovedaDarkScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFFE9C46A),
-  onPrimary: Color(0xFF3D2E00),
-  // Brass stays brass at night: the primary action keeps its metal instead of going muddy.
-  primaryContainer: Color(0xFFCFA444),
-  onPrimaryContainer: Color(0xFF221800),
-  inversePrimary: Color(0xFF876214),
-  secondary: Color(0xFFB6C5D2),
-  onSecondary: Color(0xFF20303C),
-  secondaryContainer: Color(0xFF374653),
-  onSecondaryContainer: Color(0xFFD2E1EE),
-  tertiary: Color(0xFFB4C4FF),
-  onTertiary: Color(0xFF00287D),
-  tertiaryContainer: Color(0xFF1C42B0),
-  onTertiaryContainer: Color(0xFFDCE2FF),
-  error: Color(0xFFF2B8B5),
-  onError: Color(0xFF601410),
-  errorContainer: Color(0xFF8C1D18),
-  onErrorContainer: Color(0xFFF9DEDC),
-  surface: Color(0xFF101316),
-  onSurface: Color(0xFFE1E5E9),
-  onSurfaceVariant: Color(0xFFBEC6CD),
-  surfaceTint: Color(0xFFE9C46A),
-  inverseSurface: Color(0xFFE1E5E9),
-  onInverseSurface: Color(0xFF2D3237),
-  outline: Color(0xFF899198),
-  outlineVariant: Color(0xFF3F474E),
+  primary: Color(0xFFEDEDED),
+  onPrimary: Color(0xFF0A0A0A),
+  primaryContainer: Color(0xFFEDEDED),
+  onPrimaryContainer: Color(0xFF0A0A0A),
+  inversePrimary: Color(0xFF171717),
+  secondary: Color(0xFFA1A1A1),
+  onSecondary: Color(0xFF0A0A0A),
+  secondaryContainer: Color(0xFF2E2E2E),
+  onSecondaryContainer: Color(0xFFEDEDED),
+  tertiary: Color(0xFF52A8FF),
+  onTertiary: Color(0xFF0A0A0A),
+  tertiaryContainer: Color(0xFF0A2A4D),
+  onTertiaryContainer: Color(0xFFCFE6FF),
+  error: Color(0xFFFF6166),
+  onError: Color(0xFF0A0A0A),
+  errorContainer: Color(0xFF3C0A0E),
+  onErrorContainer: Color(0xFFFFD5D8),
+  surface: Color(0xFF0A0A0A),
+  onSurface: Color(0xFFEDEDED),
+  onSurfaceVariant: Color(0xFFA1A1A1),
+  surfaceTint: Colors.transparent,
+  inverseSurface: Color(0xFFEDEDED),
+  onInverseSurface: Color(0xFF171717),
+  outline: Color(0xFF707070),
+  outlineVariant: Color(0xFF2E2E2E),
   scrim: Color(0xFF000000),
   shadow: Color(0xFF000000),
-  surfaceBright: Color(0xFF353A3F),
-  surfaceDim: Color(0xFF101316),
-  surfaceContainerLowest: Color(0xFF0B0E10),
-  surfaceContainerLow: Color(0xFF171B1E),
-  surfaceContainer: Color(0xFF1B1F23),
-  surfaceContainerHigh: Color(0xFF252A2E),
-  surfaceContainerHighest: Color(0xFF303539),
+  surfaceBright: Color(0xFF2E2E2E),
+  surfaceDim: Color(0xFF0A0A0A),
+  surfaceContainerLowest: Color(0xFF000000),
+  surfaceContainerLow: Color(0xFF111111),
+  surfaceContainer: Color(0xFF1A1A1A),
+  surfaceContainerHigh: Color(0xFF232323),
+  surfaceContainerHighest: Color(0xFF2E2E2E),
 );
 
-/// An anodized aluminium key cap: the only place colour marks an account's identity.
+/// A key cap: the only place colour marks an account's identity.
 @immutable
 class KeyCapColor {
   const KeyCapColor({required this.cap, required this.stamp});
@@ -87,22 +87,24 @@ class KeyCapColor {
   final Color stamp;
 }
 
+// The order is part of the data: an account's hue is its label's hash modulo this list.
 const anodizedCaps = <KeyCapColor>[
-  KeyCapColor(cap: Color(0xFF2F5BD3), stamp: Color(0xFFFFFFFF)), // cobalt
-  KeyCapColor(cap: Color(0xFF1F7F54), stamp: Color(0xFFFFFFFF)), // green
-  KeyCapColor(cap: Color(0xFF7046C2), stamp: Color(0xFFFFFFFF)), // violet
-  KeyCapColor(cap: Color(0xFFB4532A), stamp: Color(0xFFFFFFFF)), // copper
-  KeyCapColor(cap: Color(0xFFC99A2E), stamp: Color(0xFF221800)), // brass
-  KeyCapColor(cap: Color(0xFF0F7C86), stamp: Color(0xFFFFFFFF)), // teal
-  KeyCapColor(cap: Color(0xFFAE3678), stamp: Color(0xFFFFFFFF)), // magenta
-  KeyCapColor(cap: Color(0xFF4B5967), stamp: Color(0xFFFFFFFF)), // slate
+  KeyCapColor(cap: Color(0xFF3B5BA5), stamp: Color(0xFFFFFFFF)), // cobalt
+  KeyCapColor(cap: Color(0xFF2F7D5B), stamp: Color(0xFFFFFFFF)), // green
+  KeyCapColor(cap: Color(0xFF6B55A8), stamp: Color(0xFFFFFFFF)), // violet
+  KeyCapColor(cap: Color(0xFFA8583A), stamp: Color(0xFFFFFFFF)), // copper
+  KeyCapColor(cap: Color(0xFFB8963F), stamp: Color(0xFF1A1400)), // brass
+  KeyCapColor(cap: Color(0xFF2A7A80), stamp: Color(0xFFFFFFFF)), // teal
+  KeyCapColor(cap: Color(0xFFA0456F), stamp: Color(0xFFFFFFFF)), // magenta
+  KeyCapColor(cap: Color(0xFF5A6672), stamp: Color(0xFFFFFFFF)), // slate
 ];
 
-/// Colours Material's scheme has no role for: the graphite shell, plates and the strength scale.
+/// Colours Material's scheme has no role for: the top-level frame, plates and the strength scale.
 @immutable
 class BovedaColors extends ThemeExtension<BovedaColors> {
   const BovedaColors({
     required this.plate,
+    required this.plateEdge,
     required this.shell,
     required this.onShell,
     required this.onShellVariant,
@@ -115,8 +117,11 @@ class BovedaColors extends ThemeExtension<BovedaColors> {
     this.keyCaps = anodizedCaps,
   });
 
-  /// A raised steel plate holding a secret: always lighter than the ground, in both themes.
+  /// A raised plate holding a secret: always lighter than the ground, in both themes.
   final Color plate;
+
+  /// The hairline at a plate's edge, in place of a shadow.
+  final Color plateEdge;
   final Color shell;
   final Color onShell;
   final Color onShellVariant;
@@ -127,45 +132,47 @@ class BovedaColors extends ThemeExtension<BovedaColors> {
   /// Very weak → very strong.
   final List<Color> strength;
 
-  /// Inks for reading a secret back character by character: digits in blued steel, symbols in a
-  /// lighter graphite. Neither is a key-cap hue nor the brass of the primary action.
+  /// Inks for reading a secret back character by character: digits in blue, symbols in grey.
   final Color secretDigit;
   final Color secretSymbol;
   final List<KeyCapColor> keyCaps;
 
   static const light = BovedaColors(
     plate: Color(0xFFFFFFFF),
-    shell: Color(0xFF20262C),
-    onShell: Color(0xFFF1F3F5),
-    onShellVariant: Color(0xFFAAB3BB),
-    shellField: Color(0xFF2E353C),
-    shellIndicator: Color(0xFFE9C46A),
-    onShellIndicator: Color(0xFF251A00),
-    strength: [Color(0xFFB3261E), Color(0xFFC2541B), Color(0xFF9A6B00), Color(0xFF2E7D4F), Color(0xFF14694F)],
-    secretDigit: Color(0xFF3B5C80),
-    secretSymbol: Color(0xFF5C646C),
+    plateEdge: Color(0x14000000),
+    shell: Color(0xFFFFFFFF),
+    onShell: Color(0xFF171717),
+    onShellVariant: Color(0xFF666666),
+    shellField: Color(0xFFF2F2F2),
+    shellIndicator: Color(0xFF171717),
+    onShellIndicator: Color(0xFFFFFFFF),
+    strength: [Color(0xFFD6001C), Color(0xFFC25E00), Color(0xFF946800), Color(0xFF1C7C4A), Color(0xFF0F6B45)],
+    secretDigit: Color(0xFF0B5CAD),
+    secretSymbol: Color(0xFF707070),
   );
 
   static const dark = BovedaColors(
-    plate: Color(0xFF1B1F23),
-    shell: Color(0xFF1B2025),
-    onShell: Color(0xFFE1E5E9),
-    onShellVariant: Color(0xFF9AA3AB),
-    shellField: Color(0xFF283037),
-    shellIndicator: Color(0xFFE9C46A),
-    onShellIndicator: Color(0xFF251A00),
-    strength: [Color(0xFFF2B8B5), Color(0xFFFFB68E), Color(0xFFF0C04C), Color(0xFF7FD8A0), Color(0xFF5FD6B0)],
-    secretDigit: Color(0xFF9EBBDB),
-    secretSymbol: Color(0xFF9AA3AB),
+    plate: Color(0xFF171717),
+    plateEdge: Color(0x24FFFFFF),
+    shell: Color(0xFF0A0A0A),
+    onShell: Color(0xFFEDEDED),
+    onShellVariant: Color(0xFFA1A1A1),
+    shellField: Color(0xFF1A1A1A),
+    shellIndicator: Color(0xFFEDEDED),
+    onShellIndicator: Color(0xFF0A0A0A),
+    strength: [Color(0xFFFF6166), Color(0xFFFF9F45), Color(0xFFF0C04C), Color(0xFF62C98F), Color(0xFF3FD09A)],
+    secretDigit: Color(0xFF7DB6F0),
+    secretSymbol: Color(0xFF8F8F8F),
   );
 
-  /// With system colours the shell follows Material's own surfaces instead of graphite; caps,
-  /// secret inks and the strength scale keep their values.
+  /// With system colours the frame follows Material's own surfaces; caps, secret inks and the
+  /// strength scale keep their values.
   factory BovedaColors.dynamicFrom(ColorScheme scheme) {
     final dark = scheme.brightness == Brightness.dark;
     final base = dark ? BovedaColors.dark : BovedaColors.light;
     return base.copyWith(
       plate: dark ? scheme.surfaceContainer : scheme.surfaceContainerLowest,
+      plateEdge: scheme.outlineVariant,
       shell: scheme.surfaceContainer,
       onShell: scheme.onSurface,
       onShellVariant: scheme.onSurfaceVariant,
@@ -178,6 +185,7 @@ class BovedaColors extends ThemeExtension<BovedaColors> {
   @override
   BovedaColors copyWith({
     Color? plate,
+    Color? plateEdge,
     Color? shell,
     Color? onShell,
     Color? onShellVariant,
@@ -190,6 +198,7 @@ class BovedaColors extends ThemeExtension<BovedaColors> {
   }) =>
       BovedaColors(
         plate: plate ?? this.plate,
+        plateEdge: plateEdge ?? this.plateEdge,
         shell: shell ?? this.shell,
         onShell: onShell ?? this.onShell,
         onShellVariant: onShellVariant ?? this.onShellVariant,
@@ -207,6 +216,7 @@ class BovedaColors extends ThemeExtension<BovedaColors> {
     Color mix(Color a, Color b) => Color.lerp(a, b, t)!;
     return BovedaColors(
       plate: mix(plate, other.plate),
+      plateEdge: mix(plateEdge, other.plateEdge),
       shell: mix(shell, other.shell),
       onShell: mix(onShell, other.onShell),
       onShellVariant: mix(onShellVariant, other.onShellVariant),

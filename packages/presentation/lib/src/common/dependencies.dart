@@ -42,6 +42,7 @@ class Dependencies {
   ObserveSettingsUseCase get observeSettings => ObserveSettingsUseCase(settings);
   SetAutoLockTimeoutUseCase get setAutoLock => SetAutoLockTimeoutUseCase(settings);
   SetDynamicColorUseCase get setDynamicColor => SetDynamicColorUseCase(settings);
+  SetThemeModeUseCase get setThemeMode => SetThemeModeUseCase(settings);
   SaveGeneratorOptionsUseCase get saveGeneratorOptions => SaveGeneratorOptionsUseCase(settings);
   GetBiometricStatusUseCase get biometricStatus => GetBiometricStatusUseCase(biometrics);
   EnableBiometricUnlockUseCase get enableBiometrics => EnableBiometricUnlockUseCase(biometrics);

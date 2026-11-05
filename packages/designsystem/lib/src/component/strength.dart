@@ -78,25 +78,39 @@ class _StrengthMeterState extends State<StrengthMeter> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
-        child: SizedBox(
-          height: 6,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, _) => Row(
-              children: [
-                for (var i = 0; i < strengthLevels; i++) ...[
-                  if (i > 0) const SizedBox(width: 4),
-                  Expanded(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(color: _colorAt(i), borderRadius: const BorderRadius.all(Radius.circular(3))),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+        child: RepaintBoundary(
+          child: SizedBox(
+            height: 6,
+            width: double.infinity,
+            child: CustomPaint(painter: _SegmentsPainter(_controller, _colorAt)),
           ),
         ),
       );
+}
+
+class _SegmentsPainter extends CustomPainter {
+  _SegmentsPainter(this.animation, this.colorAt) : super(repaint: animation);
+
+  final Animation<double> animation;
+  final Color Function(int index) colorAt;
+
+  static const _gap = 4.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final width = (size.width - _gap * (strengthLevels - 1)) / strengthLevels;
+    final paint = Paint();
+    for (var i = 0; i < strengthLevels; i++) {
+      paint.color = colorAt(i);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTWH(i * (width + _gap), 0, width, size.height), const Radius.circular(3)),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_SegmentsPainter old) => true;
 }
 
 /// Meter plus its reading: the verdict in the level's colour, the entropy as a measurement, and

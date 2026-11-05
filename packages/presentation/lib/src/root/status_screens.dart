@@ -1,10 +1,8 @@
 import 'package:boveda_designsystem/boveda_designsystem.dart';
 import 'package:boveda_domain/boveda_domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../common/error_messages.dart';
-import '../common/messages.dart';
 import '../common/strings.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -13,15 +11,13 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: systemBarsOver(theme.colorScheme.surface, theme.colorScheme.surface),
+    return VaultStage(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: CenteredForm(
           children: [
-            const AppEmblem(),
-            const SizedBox(height: 28),
-            const SizedBox(width: 160, child: LinearProgressIndicator()),
-            const SizedBox(height: 16),
+            const VaultDial(working: true, child: AppEmblem(size: 60)),
+            const SizedBox(height: 24),
             Text(S.loadingVault, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           ],
         ),
@@ -40,12 +36,12 @@ class FailureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: systemBarsOver(theme.colorScheme.surface, theme.colorScheme.surface),
+    return VaultStage(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: CenteredForm(
           children: [
-            const AppEmblem(),
+            const VaultDial(size: 104, child: AppEmblem(size: 48)),
             const SizedBox(height: 24),
             Text(S.errorScreenTitle, style: theme.textTheme.headlineSmall, textAlign: TextAlign.center),
             const SizedBox(height: 8),
@@ -55,10 +51,11 @@ class FailureScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 28),
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: FilledButton(onPressed: onRetry, child: const Text(S.retry)),
+            BovedaButton(
+              size: BovedaButtonSize.large,
+              fullWidth: true,
+              onPressed: onRetry,
+              child: const Text(S.retry),
             ),
             const SizedBox(height: 8),
             TextButton(onPressed: onSignOut, child: const Text(S.signOut)),

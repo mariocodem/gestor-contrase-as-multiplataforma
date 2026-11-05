@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../icon/boveda_icon.dart';
-import '../icon/boveda_icons.dart';
 import '../theme/theme.dart';
+import 'motion_widgets.dart';
 import 'secret_text.dart';
 
 /// Keeps a [TextEditingController] in step with a value owned elsewhere (a cubit's state), the way
@@ -202,7 +201,7 @@ class _PasswordFieldState extends State<PasswordField> with _ControlledText {
               child: IconButton(
                 onPressed: () => setState(() => _visible = !_visible),
                 tooltip: _visible ? widget.hideLabel : widget.showLabel,
-                icon: BovedaIcon(_visible ? BovedaIcons.visibilityOff : BovedaIcons.visibility),
+                icon: EyeIcon(open: _visible),
               ),
             ),
             ?widget.extraSuffix,

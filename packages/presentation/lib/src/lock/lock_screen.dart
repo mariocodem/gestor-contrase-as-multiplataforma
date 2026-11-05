@@ -1,12 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:boveda_designsystem/boveda_designsystem.dart';
 import 'package:boveda_domain/boveda_domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../common/dependencies.dart';
 import '../common/form_message.dart';
-import '../common/messages.dart';
 import '../common/strength_text.dart';
 import '../common/strings.dart';
 import 'lock_cubit.dart';
@@ -83,18 +83,38 @@ class _LockContentState extends State<_LockContent> {
     final theme = Theme.of(context);
     final cubit = context.read<LockCubit>();
     final isSetup = _screen.isSetup;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: systemBarsOver(theme.colorScheme.surface, theme.colorScheme.surface),
+    final dial = math.min(isSetup ? 96.0 : 128.0, MediaQuery.sizeOf(context).height * 0.2);
+    return VaultStage(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: BlocBuilder<LockCubit, LockUiState>(
+          // The fields keep their own text, and the meter below follows the strength by itself.
+          buildWhen: (a, b) =>
+              a.isWorking != b.isWorking ||
+              a.error != b.error ||
+              a.rejections != b.rejections ||
+              a.biometricEnabled != b.biometricEnabled ||
+              a.password.isEmpty != b.password.isEmpty ||
+              a.confirmation.isEmpty != b.confirmation.isEmpty,
           builder: (context, state) {
             // The cubit resets as soon as the key is accepted; while this screen fades out over the
             // opening vault it keeps showing the work it just finished instead of flicking back to idle.
             final working = state.isWorking || _screen.opening;
             return CenteredForm(
               children: [
-                LockEmblem(locked: !_screen.opening, rejections: state.rejections, startOpen: _screen.arrivedFromUnlocked),
-                const SizedBox(height: 24),
+                VaultDial(
+                  size: dial,
+                  working: state.isWorking,
+                  opening: _screen.opening,
+                  rejections: state.rejections,
+                  child: LockEmblem(
+                    locked: !_screen.opening,
+                    rejections: state.rejections,
+                    size: dial * 0.46,
+                    startOpen: _screen.arrivedFromUnlocked,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Semantics(
                   header: true,
                   child: Text(
@@ -124,15 +144,18 @@ class _LockContentState extends State<_LockContent> {
                   autofillHints: const [AutofillHints.password],
                 ),
                 if (isSetup) ...[
-                  AnimatedSize(
-                    duration: BovedaMotion.of(context, BovedaMotion.medium),
-                    curve: BovedaMotion.emphasizedDecelerate,
-                    child: state.password.isEmpty
-                        ? const SizedBox(width: double.infinity)
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 4, bottom: 8),
-                            child: SizedBox(width: double.infinity, child: PasswordStrengthIndicator(strength: state.strength)),
-                          ),
+                  BlocSelector<LockCubit, LockUiState, PasswordStrength>(
+                    selector: (state) => state.strength,
+                    builder: (context, strength) => AnimatedSize(
+                      duration: BovedaMotion.of(context, BovedaMotion.medium),
+                      curve: BovedaMotion.emphasizedDecelerate,
+                      child: state.password.isEmpty
+                          ? const SizedBox(width: double.infinity)
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 8),
+                              child: SizedBox(width: double.infinity, child: PasswordStrengthIndicator(strength: strength)),
+                            ),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   PasswordField(
@@ -147,37 +170,26 @@ class _LockContentState extends State<_LockContent> {
                 ],
                 FormMessage(text: state.error, color: theme.colorScheme.error),
                 const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: FilledButton(
-                    onPressed: working ? null : _submit,
-                    child: AnimatedSwitcher(
-                      duration: BovedaMotion.of(context, BovedaMotion.short),
-                      child: working
-                          ? Row(
-                              key: const ValueKey('busy'),
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2)),
-                                const SizedBox(width: 12),
-                                Text(isSetup ? S.lockCreating : S.lockUnlocking),
-                              ],
-                            )
-                          : Text(isSetup ? S.lockCreate : S.lockUnlock, key: const ValueKey('idle')),
-                    ),
+                BovedaButton(
+                  size: BovedaButtonSize.large,
+                  fullWidth: true,
+                  loading: working,
+                  onPressed: _submit,
+                  child: Text(
+                    working
+                        ? (isSetup ? S.lockCreating : S.lockUnlocking)
+                        : (isSetup ? S.lockCreate : S.lockUnlock),
                   ),
                 ),
                 if (!isSetup && state.biometricEnabled) ...[
                   const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: OutlinedButton.icon(
-                      onPressed: working ? null : _promptBiometrics,
-                      icon: const BovedaIcon(BovedaIcons.fingerprint),
-                      label: Text(S.lockUseBiometrics),
-                    ),
+                  BovedaButton(
+                    type: BovedaButtonType.secondary,
+                    size: BovedaButtonSize.large,
+                    fullWidth: true,
+                    onPressed: working ? null : _promptBiometrics,
+                    prefix: const BovedaIcon(BovedaIcons.fingerprint, size: 20),
+                    child: Text(S.lockUseBiometrics),
                   ),
                 ],
                 const SizedBox(height: 24),
@@ -203,7 +215,7 @@ class _RecoveryWarning extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: theme.colorScheme.surfaceContainerHigh,
+      color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
       shape: const RoundedRectangleBorder(borderRadius: BovedaShapes.medium),
       child: Padding(
         padding: const EdgeInsets.all(16),

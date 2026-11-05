@@ -26,6 +26,14 @@ class SetDynamicColorUseCase {
   Future<void> call(bool enabled) => _settings.setDynamicColor(enabled);
 }
 
+class SetThemeModeUseCase {
+  const SetThemeModeUseCase(this._settings);
+
+  final SettingsRepository _settings;
+
+  Future<void> call(AppThemeMode mode) => _settings.setThemeMode(mode);
+}
+
 class SaveGeneratorOptionsUseCase {
   const SaveGeneratorOptionsUseCase(this._settings);
 

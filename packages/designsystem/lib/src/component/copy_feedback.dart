@@ -49,17 +49,64 @@ class CopyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         label: semanticLabel,
-        child: AnimatedSwitcher(
-          duration: BovedaMotion.of(context, BovedaMotion.medium),
-          reverseDuration: BovedaMotion.of(context, const Duration(milliseconds: 100)),
-          switchInCurve: BovedaMotion.emphasizedDecelerate,
-          transitionBuilder: (child, animation) => FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: const Interval(0, 0.6)),
-            child: ScaleTransition(scale: Tween(begin: 0.4, end: 1.0).animate(animation), child: child),
-          ),
-          child: BovedaIcon(copied ? BovedaIcons.check : BovedaIcons.copy, key: ValueKey(copied)),
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            if (copied && BovedaMotion.enabled(context)) const _CopyRing(),
+            AnimatedSwitcher(
+              duration: BovedaMotion.of(context, BovedaMotion.medium),
+              reverseDuration: BovedaMotion.of(context, const Duration(milliseconds: 100)),
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: CurvedAnimation(parent: animation, curve: const Interval(0, 0.6)),
+                child: ScaleTransition(
+                  scale: animation.drive(Tween(begin: 0.4, end: 1.0).chain(CurveTween(curve: BovedaMotion.seat))),
+                  child: child,
+                ),
+              ),
+              child: BovedaIcon(copied ? BovedaIcons.check : BovedaIcons.copy, key: ValueKey(copied)),
+            ),
+          ],
         ),
       );
+}
+
+/// One ring leaving the check as it lands: an acknowledgement you catch out of the corner of your eye.
+class _CopyRing extends StatelessWidget {
+  const _CopyRing();
+
+  @override
+  Widget build(BuildContext context) {
+    final color = IconTheme.of(context).color ?? Theme.of(context).colorScheme.primary;
+    return IgnorePointer(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 420),
+        curve: BovedaMotion.emphasizedDecelerate,
+        builder: (context, t, _) => CustomPaint(size: const Size.square(24), painter: _RingPainter(color, t)),
+      ),
+    );
+  }
+}
+
+class _RingPainter extends CustomPainter {
+  _RingPainter(this.color, this.t);
+
+  final Color color;
+  final double t;
+
+  @override
+  void paint(Canvas canvas, Size size) => canvas.drawCircle(
+        size.center(Offset.zero),
+        size.width * (0.45 + t * 0.6),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2 * (1 - t) + 0.5
+          ..color = color.withValues(alpha: color.a * 0.55 * (1 - t)),
+      );
+
+  @override
+  bool shouldRepaint(_RingPainter old) => old.t != t || old.color != color;
 }
 
 /// Icon and label of a copy button; the label rolls up to [copiedLabel] while [copied].

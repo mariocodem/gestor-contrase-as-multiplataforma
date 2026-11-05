@@ -12,6 +12,7 @@ class SettingsState {
     this.email,
     this.autoLock = AutoLockTimeout.minute1,
     this.dynamicColor = false,
+    this.themeMode = AppThemeMode.system,
     this.biometricAvailable = false,
     this.biometricEnabled = false,
   });
@@ -19,6 +20,7 @@ class SettingsState {
   final String? email;
   final AutoLockTimeout autoLock;
   final bool dynamicColor;
+  final AppThemeMode themeMode;
   final bool biometricAvailable;
   final bool biometricEnabled;
 }
@@ -47,6 +49,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         email: _user.email,
         autoLock: _latest.autoLock,
         dynamicColor: _latest.dynamicColor,
+        themeMode: _latest.themeMode,
         biometricAvailable: biometric.available,
         biometricEnabled: biometric.enabled,
       ),
@@ -56,6 +59,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<void> setAutoLock(AutoLockTimeout timeout) => _deps.setAutoLock(timeout);
 
   Future<void> setDynamicColor(bool enabled) => _deps.setDynamicColor(enabled);
+
+  Future<void> setThemeMode(AppThemeMode mode) => _deps.setThemeMode(mode);
 
   Future<void> enableBiometric(BiometricPrompt prompt) async {
     final result = await _deps.enableBiometrics(_user.id, prompt);

@@ -9,5 +9,7 @@ abstract interface class SettingsRepository {
 
   Future<void> setDynamicColor(bool enabled);
 
+  Future<void> setThemeMode(AppThemeMode mode);
+
   Future<void> setGeneratorOptions(PasswordOptions options);
 }

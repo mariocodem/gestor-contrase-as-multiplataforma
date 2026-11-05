@@ -16,10 +16,19 @@ Future<void> settle(WidgetTester tester) async {
   }
 }
 
+/// A phone's window: the forms are taller than the test default of 800x600, and this is the layout
+/// with the floating dock.
+void phoneWindow(WidgetTester tester) {
+  tester.view.physicalSize = const Size(412, 915);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
 void main() {
   setUpAll(() => initializeDateFormatting('es'));
 
   testWidgets('signed out, the app asks for the account', (tester) async {
+    phoneWindow(tester);
     await tester.pumpWidget(BovedaApp(dependencies: fakeDependencies(auth: FakeAuthRepository())));
     await settle(tester);
 
@@ -32,6 +41,7 @@ void main() {
   });
 
   testWidgets('a wrong master password is refused, the right one opens the vault', (tester) async {
+    phoneWindow(tester);
     final vault = FakeVaultRepository(
       unlockedFor: null,
       entries: const [
@@ -81,6 +91,7 @@ void main() {
   });
 
   testWidgets('a new account creates its vault with a confirmed master password', (tester) async {
+    phoneWindow(tester);
     final vault = FakeVaultRepository(unlockedFor: null, status: const VaultMissing());
     await tester.pumpWidget(BovedaApp(dependencies: fakeDependencies(auth: FakeAuthRepository(_user), vault: vault)));
     await settle(tester);
@@ -90,14 +101,38 @@ void main() {
     final fields = find.byType(TextField);
     await tester.enterText(fields.at(0), 'una frase larga y mia');
     await tester.enterText(fields.at(1), 'una frase larga y otra');
+    await tester.ensureVisible(find.text(S.lockCreate));
+    await settle(tester);
     await tester.tap(find.text(S.lockCreate));
     await settle(tester);
     expect(find.text(S.errorMasterPasswordMismatch), findsOneWidget);
 
     await tester.enterText(fields.at(1), 'una frase larga y mia');
+    await tester.ensureVisible(find.text(S.lockCreate));
+    await settle(tester);
     await tester.tap(find.text(S.lockCreate));
     await settle(tester);
     expect(find.text(S.vaultEmptyTitle), findsOneWidget);
+  });
+
+  testWidgets('the theme is chosen in settings and remembered', (tester) async {
+    phoneWindow(tester);
+    final settings = FakeSettingsRepository();
+    await tester.pumpWidget(BovedaApp(dependencies: fakeDependencies(settings: settings)));
+    await settle(tester);
+    ThemeMode applied() => tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode!;
+    expect(applied(), ThemeMode.system);
+
+    await tester.tap(find.text(S.navSettings));
+    await settle(tester);
+    await tester.ensureVisible(find.text(S.settingsThemeDark));
+    await settle(tester);
+    await tester.tap(find.text(S.settingsThemeDark));
+    await settle(tester);
+
+    expect(applied(), ThemeMode.dark);
+    expect(settings.state.value.themeMode, AppThemeMode.dark);
+    expect(Theme.of(tester.element(find.text(S.settingsThemeDark))).brightness, Brightness.dark);
   });
 
   testWidgets('wide windows get a navigation rail, and the generator tab works', (tester) async {
@@ -111,8 +146,11 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
 
     await tester.tap(find.text(S.navGenerator));
+    await tester.pump();
+    // The saved options arrive through a stream that needs the real event loop, not the fake clock.
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
     await settle(tester);
     expect(find.text(S.generatorAssumption), findsOneWidget);
-    expect(find.text(S.strengthVeryStrong), findsOneWidget);
+    expect(find.textContaining(S.strengthVeryStrong, findRichText: true), findsOneWidget);
   });
 }

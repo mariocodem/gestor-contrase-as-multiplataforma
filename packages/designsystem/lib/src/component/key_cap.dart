@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import '../theme/colors.dart';
 import '../theme/motion.dart';
@@ -59,49 +59,70 @@ class _KeyCapPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawPath(keyCapPath(size), Paint()..color = color.cap);
+    canvas.save();
+    canvas.scale(size.width / _unit, size.height / _unit);
+    _paintCap(canvas, color.cap);
     // Sized from the drawn cap, not from the system font size: the cap is an icon, and it keeps
     // its proportions while it travels between the list row and the detail header.
-    final text = TextPainter(
-      text: TextSpan(
-        text: initial,
-        style: TextStyle(
-          fontFamily: uiFontFamily,
-          package: 'boveda_designsystem',
-          fontWeight: FontWeight.w700,
-          fontSize: size.width * 0.40,
-          color: color.stamp,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-      textScaler: TextScaler.noScaling,
-    )..layout();
-    text.paint(canvas, Offset((size.width - text.width) / 2, size.height * _head * 0.58 - text.height / 2));
+    final stamp = _stampFor(initial, color.stamp);
+    stamp.paint(canvas, Offset((_unit - stamp.width) / 2, _unit * _head * 0.58 - stamp.height / 2));
+    canvas.restore();
   }
 
   @override
   bool shouldRepaint(_KeyCapPainter old) => old.color != color || old.initial != initial;
 }
 
+// Everything below is drawn on a 100-unit grid and scaled, so a list of keys (and a key in flight,
+// which changes size every frame) shares one path, one paint per hue and one layout per stamp.
+const _unit = 100.0;
+
 /// Head with rounded corners, the stub of the blade below it, and a ring hole punched through.
-Path keyCapPath(Size size) {
-  final w = size.width;
-  final h = size.height;
-  final headHeight = h * _head;
+final Path _capPath = () {
+  const headHeight = _unit * _head;
   final body = Path()
-    ..addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, w, headHeight), Radius.circular(w * 0.30)))
+    ..addRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(0, 0, _unit, headHeight), const Radius.circular(_unit * 0.30)))
     ..addRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(w * 0.37, headHeight - w * 0.08, w * 0.26, h - headHeight + w * 0.08),
-        Radius.circular(w * 0.05),
+        const Rect.fromLTWH(_unit * 0.37, headHeight - _unit * 0.08, _unit * 0.26, _unit - headHeight + _unit * 0.08),
+        const Radius.circular(_unit * 0.05),
       ),
     );
-  final hole = Path()..addOval(Rect.fromCircle(center: Offset(w / 2, h * _ringY), radius: w * 0.075));
+  final hole = Path()..addOval(Rect.fromCircle(center: const Offset(_unit / 2, _unit * _ringY), radius: _unit * 0.075));
   return Path.combine(PathOperation.difference, body, hole);
+}();
+
+final _stamps = <(String, Color), TextPainter>{};
+
+void _paintCap(Canvas canvas, Color cap) => canvas.drawPath(_capPath, Paint()..color = cap);
+
+TextPainter _stampFor(String initial, Color color) {
+  if (_stamps.length > 128) {
+    for (final stamp in _stamps.values) {
+      stamp.dispose();
+    }
+    _stamps.clear();
+  }
+  return _stamps.putIfAbsent(
+    (initial, color),
+    () => TextPainter(
+      text: TextSpan(
+        text: initial,
+        style: TextStyle(
+          fontFamily: uiFontFamily,
+          package: 'boveda_designsystem',
+          fontWeight: FontWeight.w700,
+          fontSize: _unit * 0.40,
+          color: color,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: TextScaler.noScaling,
+    )..layout(),
+  );
 }
 
-/// The app's mark: the same key cap in graphite with a brass padlock, for the sign-in and lock
-/// screens. Decorative; those screens carry their own title.
+/// The app's mark: a padlock drawn in a single line. Decorative; its screens carry their own title.
 class AppEmblem extends StatelessWidget {
   const AppEmblem({super.key, this.size = 76});
 
@@ -214,12 +235,14 @@ class _LockEmblemState extends State<LockEmblem> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-        animation: Listenable.merge([_shackle, _swing]),
-        builder: (context, _) => Transform.rotate(
-          angle: _swing.value * math.pi / 180,
-          alignment: Alignment(0, _ringY * 2 - 1),
-          child: _EmblemCanvas(size: widget.size, shackle: _shackle.value),
+  Widget build(BuildContext context) => RepaintBoundary(
+        child: AnimatedBuilder(
+          animation: Listenable.merge([_shackle, _swing]),
+          builder: (context, _) => Transform.rotate(
+            angle: _swing.value * math.pi / 180,
+            alignment: Alignment(0, _ringY * 2 - 1),
+            child: _EmblemCanvas(size: widget.size, shackle: _shackle.value),
+          ),
         ),
       );
 }
@@ -232,62 +255,53 @@ class _EmblemCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.bovedaColors;
     return ExcludeSemantics(
       child: SizedBox.square(
         dimension: size,
-        child: CustomPaint(painter: _EmblemPainter(colors.shell, colors.shellIndicator, shackle)),
+        child: CustomPaint(painter: _EmblemPainter(Theme.of(context).colorScheme.onSurface, shackle)),
       ),
     );
   }
 }
 
 class _EmblemPainter extends CustomPainter {
-  _EmblemPainter(this.cap, this.lock, this.open);
+  _EmblemPainter(this.ink, this.open);
 
-  final Color cap;
-  final Color lock;
+  final Color ink;
   final double open;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawPath(keyCapPath(size), Paint()..color = cap);
-    _drawPadlock(canvas, size);
-  }
 
   /// The Material Symbols lock, redrawn on its 960 grid so the shackle can move: [open] 0 is
   /// seated, 1 lifts it clear of the body on its long right leg. Below 0 it sinks slightly.
-  void _drawPadlock(Canvas canvas, Size size) {
-    final box = size.width * 0.40;
-    final unit = box / 960;
-    const stroke = 80.0;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final unit = size.width / 960;
+    const stroke = 56.0;
     final lift = open * 110;
     final outline = Paint()
-      ..color = lock
+      ..color = ink
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke;
     canvas.save();
-    canvas.translate((size.width - box) / 2, (size.height - box) / 2 + size.height * 0.07);
     canvas.scale(unit);
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(200, 360, 560, 480), const Radius.circular(40)), outline);
-    canvas.drawCircle(const Offset(480, 600), 80, Paint()..color = lock);
+    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(200, 400, 560, 460), const Radius.circular(72)), outline);
+    canvas.drawCircle(const Offset(480, 630), 44, Paint()..color = ink);
     canvas.save();
     canvas.translate(0, -lift);
-    canvas.drawArc(const Rect.fromLTWH(320, 80, 320, 320), math.pi, math.pi, false, outline);
+    canvas.drawArc(const Rect.fromLTWH(320, 110, 320, 320), math.pi, math.pi, false, outline);
     canvas.drawLine(
-      const Offset(320, 240),
-      const Offset(320, 320),
+      const Offset(320, 270),
+      const Offset(320, 360),
       Paint()
-        ..color = lock
+        ..color = ink
         ..strokeWidth = stroke
         ..strokeCap = StrokeCap.round,
     );
     canvas.restore();
     // The long leg stays in the body however high the shackle rises.
-    canvas.drawLine(Offset(640, 240 - lift), const Offset(640, 330), outline);
+    canvas.drawLine(Offset(640, 270 - lift), const Offset(640, 372), outline);
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(_EmblemPainter old) => old.cap != cap || old.lock != lock || old.open != open;
+  bool shouldRepaint(_EmblemPainter old) => old.ink != ink || old.open != open;
 }

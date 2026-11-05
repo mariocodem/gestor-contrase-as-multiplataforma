@@ -151,11 +151,14 @@ Page<void> _statePage(GoRouterState state, RootCubit root, Widget child) => Cust
           curve: opening ? const Interval(120 / 460, 340 / 460) : const Interval(60 / 460, 280 / 460),
           reverseCurve: opening ? const Interval(160 / 460, 320 / 460) : const Interval(340 / 460, 1),
         );
-        final grow = opening && !leaving
-            ? Tween(begin: 0.97, end: 1.0).animate(
-                CurvedAnimation(parent: animation, curve: const Interval(120 / 460, 1, curve: BovedaMotion.emphasizedDecelerate)),
-              )
-            : const AlwaysStoppedAnimation(1.0);
+        final grow = !opening
+            ? const AlwaysStoppedAnimation(1.0)
+            : leaving
+                // The door swinging towards you as you go through it.
+                ? Tween(begin: 1.14, end: 1.0).animate(animation)
+                : Tween(begin: 0.97, end: 1.0).animate(
+                    CurvedAnimation(parent: animation, curve: const Interval(120 / 460, 1, curve: BovedaMotion.emphasizedDecelerate)),
+                  );
         // The same shape every frame, so the page keeps its state whichever way it moves.
         return ScaleTransition(
           scale: grow,

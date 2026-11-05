@@ -61,6 +61,8 @@ class _SettingsContentState extends State<_SettingsContent> {
     final cubit = context.read<SettingsCubit>();
     final dynamicAvailable = DynamicColorAvailability.of(context);
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: const ShellDockSpacer(),
       appBar: const ShellTopBar(title: S.settingsTitle, contentWidth: readableWidth),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
@@ -70,48 +72,72 @@ class _SettingsContentState extends State<_SettingsContent> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: readableWidth),
               child: ListView(
-                padding: const EdgeInsets.only(bottom: 24),
+                padding: EdgeInsets.fromLTRB(16, 4, 16, 24 + MediaQuery.paddingOf(context).bottom),
                 children: [
                   const SectionLabel(S.settingsAccount),
-                  _SettingRow(icon: BovedaIcons.person, title: state.email ?? '—', body: S.settingsSignedIn),
-                  _SettingRow(icon: BovedaIcons.logout, title: S.signOut, onTap: cubit.signOut),
+                  _SettingsGroup(
+                    children: [
+                      _AccountRow(email: state.email ?? '—'),
+                      _SettingRow(icon: BovedaIcons.logout, title: S.signOut, onTap: cubit.signOut),
+                    ],
+                  ),
                   const SectionLabel(S.settingsSecurity),
-                  _SettingRow(
-                    icon: BovedaIcons.fingerprint,
-                    title: S.settingsBiometric,
-                    body: biometricUsable ? S.settingsBiometricBody : S.settingsBiometricUnavailable,
-                    enabled: biometricUsable,
-                    onTap: () => _toggleBiometric(!state.biometricEnabled),
-                    trailing: Switch(
-                      value: state.biometricEnabled,
-                      onChanged: biometricUsable ? _toggleBiometric : null,
-                    ),
+                  _SettingsGroup(
+                    children: [
+                      _SettingRow(
+                        icon: BovedaIcons.fingerprint,
+                        title: S.settingsBiometric,
+                        body: biometricUsable ? S.settingsBiometricBody : S.settingsBiometricUnavailable,
+                        enabled: biometricUsable,
+                        onTap: () => _toggleBiometric(!state.biometricEnabled),
+                        trailing: Switch(
+                          value: state.biometricEnabled,
+                          onChanged: biometricUsable ? _toggleBiometric : null,
+                        ),
+                      ),
+                      _SettingRow(
+                        icon: BovedaIcons.timer,
+                        title: S.settingsAutoLock,
+                        body: _autoLockLabel(state.autoLock),
+                        onTap: () => _chooseAutoLock(state.autoLock),
+                        trailing: BovedaIcon(BovedaIcons.chevronRight, color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                      _SettingRow(
+                        icon: BovedaIcons.lock,
+                        title: S.settingsLockNow,
+                        body: S.settingsLockNowBody,
+                        onTap: cubit.lockNow,
+                      ),
+                    ],
                   ),
-                  _SettingRow(
-                    icon: BovedaIcons.timer,
-                    title: S.settingsAutoLock,
-                    body: _autoLockLabel(state.autoLock),
-                    onTap: () => _chooseAutoLock(state.autoLock),
+                  const SectionLabel(S.settingsAppearance),
+                  _SettingsGroup(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: BovedaSegmented<AppThemeMode>(
+                          selected: state.themeMode,
+                          onChanged: cubit.setThemeMode,
+                          segments: const [
+                            BovedaSegment(value: AppThemeMode.system, label: S.settingsThemeSystem),
+                            BovedaSegment(value: AppThemeMode.light, label: S.settingsThemeLight),
+                            BovedaSegment(value: AppThemeMode.dark, label: S.settingsThemeDark),
+                          ],
+                        ),
+                      ),
+                      if (dynamicAvailable)
+                        _SettingRow(
+                          icon: BovedaIcons.palette,
+                          title: S.settingsDynamicColor,
+                          body: S.settingsDynamicColorBody,
+                          onTap: () => cubit.setDynamicColor(!state.dynamicColor),
+                          trailing: Switch(value: state.dynamicColor, onChanged: cubit.setDynamicColor),
+                        ),
+                    ],
                   ),
-                  _SettingRow(
-                    icon: BovedaIcons.lock,
-                    title: S.settingsLockNow,
-                    body: S.settingsLockNowBody,
-                    onTap: cubit.lockNow,
-                  ),
-                  if (dynamicAvailable) ...[
-                    const SectionLabel(S.settingsAppearance),
-                    _SettingRow(
-                      icon: BovedaIcons.palette,
-                      title: S.settingsDynamicColor,
-                      body: S.settingsDynamicColorBody,
-                      onTap: () => cubit.setDynamicColor(!state.dynamicColor),
-                      trailing: Switch(value: state.dynamicColor, onChanged: cubit.setDynamicColor),
-                    ),
-                  ],
                   // On the list keylines: icon in the same 24 dp slot, text on the same column.
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 32, 24, 0),
+                    padding: const EdgeInsets.fromLTRB(16, 28, 16, 0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -164,6 +190,60 @@ String _autoLockLabel(AutoLockTimeout timeout) => switch (timeout) {
       AutoLockTimeout.minutes15 => S.autoLock15Minutes,
     };
 
+/// Related settings on one plate, with hairlines that start past the icon.
+class _SettingsGroup extends StatelessWidget {
+  const _SettingsGroup({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => Plate(
+        child: Column(
+          children: [
+            for (final (index, child) in children.indexed) ...[
+              if (index > 0) const Divider(indent: 68),
+              child,
+            ],
+          ],
+        ),
+      );
+}
+
+/// Who is signed in: the app's mark beside the account.
+class _AccountRow extends StatelessWidget {
+  const _AccountRow({required this.email});
+
+  final String email;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return MergeSemantics(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const _IconWell(BovedaIcons.lock),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(email, style: theme.textTheme.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    S.settingsSignedIn,
+                    style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SettingRow extends StatelessWidget {
   const _SettingRow({
     required this.icon,
@@ -185,12 +265,28 @@ class _SettingRow extends StatelessWidget {
   Widget build(BuildContext context) => MergeSemantics(
         child: ListTile(
           enabled: enabled,
-          leading: BovedaIcon(icon),
+          leading: _IconWell(icon),
+          horizontalTitleGap: 12,
           title: Text(title),
           subtitle: body == null ? null : Text(body!),
           trailing: trailing,
           onTap: onTap,
         ),
+      );
+}
+
+class _IconWell extends StatelessWidget {
+  const _IconWell(this.icon);
+
+  final BovedaIconData icon;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          borderRadius: BovedaShapes.small,
+        ),
+        child: SizedBox.square(dimension: 40, child: Center(child: BovedaIcon(icon, size: 22))),
       );
 }
 
